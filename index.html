@@ -29,6 +29,30 @@
             padding: 2rem 0;
             text-align: center;
             color: white;
+            position: relative;
+        }
+
+        .header-nav {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.7rem 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: white;
+            transform: translateY(-2px);
         }
 
         .profile-img {
@@ -146,6 +170,21 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
+        .project-card.special {
+            background: linear-gradient(135deg, #667eea10, #764ba210);
+            border-left-color: #764ba2;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card.special::before {
+            content: '🆕';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.2rem;
+        }
+
         .project-title {
             color: #764ba2;
             font-size: 1.3rem;
@@ -156,6 +195,19 @@
         .project-desc {
             color: #666;
             margin-bottom: 1rem;
+        }
+
+        .project-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: #764ba2;
         }
 
         .tech-tags {
@@ -196,6 +248,12 @@
             .contact-link {
                 padding: 0.8rem 1.5rem;
             }
+
+            .header-nav {
+                position: static;
+                text-align: center;
+                margin-bottom: 1rem;
+            }
         }
 
         .fade-in {
@@ -208,6 +266,7 @@
         .fade-in:nth-child(2) { animation-delay: 0.2s; }
         .fade-in:nth-child(3) { animation-delay: 0.3s; }
         .fade-in:nth-child(4) { animation-delay: 0.4s; }
+        .fade-in:nth-child(5) { animation-delay: 0.5s; }
 
         @keyframes fadeIn {
             to {
@@ -220,6 +279,9 @@
 <body>
     <header>
         <div class="container">
+            <div class="header-nav">
+                <a href="chat/" class="nav-link">🤖 AI对话</a>
+            </div>
             <div class="profile-img">👨‍💻</div>
             <h1>Irawill</h1>
             <p class="subtitle">开发者 | 创作者 | 技术爱好者</p>
@@ -248,6 +310,16 @@
             <section class="section fade-in">
                 <h2>项目展示</h2>
                 <div class="projects-grid">
+                    <div class="project-card special">
+                        <div class="project-title">AI对话助手</div>
+                        <div class="project-desc">基于Claude API构建的智能对话系统，支持实时对话和TypeScript开发。</div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Claude API</span>
+                        </div>
+                        <a href="chat/" class="project-link">立即体验 →</a>
+                    </div>
                     <div class="project-card">
                         <div class="project-title">个人博客系统</div>
                         <div class="project-desc">基于现代Web技术栈构建的响应式博客平台，支持Markdown写作和主题定制。</div>
