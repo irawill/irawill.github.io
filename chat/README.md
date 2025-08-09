@@ -5,7 +5,7 @@
 ## 🌟 功能特性
 
 - **智能对话**: 基于Claude Sonnet 4 API提供高质量的AI对话体验
-- **现代界面**: 使用React + TypeScript构建，具有美观的聊天界面
+- **现代界面**: 使用React + JavaScript构建，具有美观的聊天界面
 - **实时响应**: 支持实时消息发送和接收
 - **响应式设计**: 完美适配桌面和移动设备
 - **打字指示器**: 显示AI正在思考的动画效果
@@ -14,7 +14,8 @@
 ## 🛠 技术栈
 
 - **前端框架**: React 18
-- **类型系统**: TypeScript
+- **开发语言**: JavaScript (ES6+)
+- **转译工具**: Babel Standalone
 - **API**: Claude Sonnet 4 API
 - **样式**: 原生CSS3 (渐变、动画、Grid/Flex布局)
 - **部署**: GitHub Pages
@@ -93,6 +94,25 @@ chat/
 - **悬停效果**: 按钮和链接的交互反馈
 - **响应式布局**: 移动设备友好的自适应设计
 
+## 🔧 技术实现细节
+
+### React组件结构
+- 单一React组件包含所有聊天逻辑
+- 使用useState管理组件状态
+- useRef处理DOM引用
+- useEffect处理副作用
+
+### JavaScript特性
+- 使用现代ES6+语法
+- 异步/等待处理API调用
+- 箭头函数和解构赋值
+- 模板字符串和可选链操作符
+
+### Babel转译
+- 使用Babel Standalone进行浏览器内JSX转译
+- 支持现代JavaScript特性
+- 无需构建步骤，直接在浏览器运行
+
 ## 🔮 未来增强
 
 - [ ] 支持Markdown渲染
@@ -104,4 +124,4 @@ chat/
 
 ---
 
-💡 **提示**: 这个AI对话系统展示了如何将现代AI API集成到静态网站中，为用户提供智能交互体验。
+💡 **提示**: 这个AI对话系统展示了如何将现代AI API集成到静态网站中，使用纯JavaScript和React为用户提供智能交互体验。
