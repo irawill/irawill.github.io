@@ -26,7 +26,7 @@
 
 ### AI对话系统 (`/chat/`)
 - 基于Claude Sonnet 4 API构建
-- React + TypeScript 实现
+- React + JavaScript 实现
 - 实时对话体验
 - 响应式聊天界面
 - 智能回复和对话历史
@@ -41,7 +41,8 @@
 
 ### AI对话系统
 - **React 18** - 前端框架
-- **TypeScript** - 类型安全
+- **JavaScript (ES6+)** - 现代JavaScript特性
+- **Babel Standalone** - 浏览器内JSX转译
 - **Claude API** - AI对话能力
 - **现代CSS** - 美观界面设计
 
@@ -131,6 +132,7 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 - GitHub Pages - 免费静态网站托管
 - Claude API - 强大的AI对话能力
 - React - 优秀的前端框架
+- Babel - JavaScript转译工具
 
 ---
 
