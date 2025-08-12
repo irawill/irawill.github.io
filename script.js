@@ -767,7 +767,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 // 防止右键菜单（可选）
-document.addEventListener('contextmenu', (e) => e.preventDefault());
+// document.addEventListener('contextmenu', (e) => e.preventDefault());
 
 // 添加键盘快捷键
 document.addEventListener('keydown', (e) => {
