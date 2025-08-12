@@ -131,7 +131,7 @@ const languages = {
         
         // Experience section
         experienceTitle: 'Experience',
-        exp1Company: 'Ant Financial (Shanghai) Information Technology Co., Ltd.',
+        exp1Company: 'Ant Group',
         exp1Role: 'Frontend Developer',
         exp1Tasks: [
             'Lead platform engineering for R&D efficiency and tech risk, serving as frontend lead',
@@ -139,20 +139,20 @@ const languages = {
             'Promoted micro-frontend architecture for large-scale projects, improving page loading and development experience',
             'Designed immersive document reading SDK with 5-minute integration, promoted across multiple BUs'
         ],
-        exp2Company: 'Xiaohongshu Technology Co., Ltd.',
+        exp2Company: 'REDnote',
         exp2Role: 'Frontend Developer',
         exp2Tasks: [
             'Built H5 activity platform for self-service operations and multi-platform quick integration',
             'Encapsulated common visualization components based on ECharts/D3, unified chart specifications',
             'Standardized animations (Lottie+WebGL), forming standardized gameplay'
         ],
-        exp3Company: 'Beijing iQiyi Technology Co., Ltd.',
+        exp3Company: 'iQIYI',
         exp3Role: 'Frontend Developer',
         exp3Tasks: [
             'Led live streaming player business, covering PC Web/desktop client/mobile',
             'Optimized playback experience and video streaming output pipeline'
         ],
-        exp4Company: 'Shanghai Shahu Information Technology Co., Ltd.',
+        exp4Company: 'Sandlacus Technology Co.,Ltd.',
         exp4Role: 'Frontend Developer',
         exp4Tasks: [
             'Designed and implemented RESTful APIs using Express+MongoDB',
