@@ -3,377 +3,281 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Irawill - 个人主页</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        header {
-            padding: 2rem 0;
-            text-align: center;
-            color: white;
-            position: relative;
-        }
-
-        .header-nav {
-            position: absolute;
-            top: 2rem;
-            right: 2rem;
-        }
-
-        .nav-link {
-            color: white;
-            text-decoration: none;
-            padding: 0.7rem 1.5rem;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 25px;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .nav-link:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: white;
-            transform: translateY(-2px);
-        }
-
-        .profile-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 5px solid white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            margin-bottom: 1rem;
-            background: #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
-        }
-
-        .main-content {
-            background: white;
-            border-radius: 20px;
-            padding: 3rem;
-            margin: 2rem 0;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-
-        .section {
-            margin-bottom: 3rem;
-        }
-
-        .section h2 {
-            color: #764ba2;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 0.5rem;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .skill-item {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 1rem;
-            border-radius: 10px;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .skill-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-        }
-
-        .contact-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            background: #667eea;
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .contact-link:hover {
-            background: #764ba2;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .project-card {
-            background: #f8f9ff;
-            padding: 2rem;
-            border-radius: 15px;
-            border-left: 5px solid #667eea;
-            transition: transform 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .project-card.special {
-            background: linear-gradient(135deg, #667eea10, #764ba210);
-            border-left-color: #764ba2;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-card.special::before {
-            content: '🆕';
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.2rem;
-        }
-
-        .project-title {
-            color: #764ba2;
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-
-        .project-desc {
-            color: #666;
-            margin-bottom: 1rem;
-        }
-
-        .project-link {
-            display: inline-block;
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 500;
-            margin-top: 0.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .project-link:hover {
-            color: #764ba2;
-        }
-
-        .tech-tags {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .tech-tag {
-            background: #667eea;
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem 0;
-            color: white;
-            opacity: 0.8;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .main-content {
-                padding: 2rem 1rem;
-                margin: 1rem 0;
-            }
-            
-            .contact-links {
-                gap: 1rem;
-            }
-            
-            .contact-link {
-                padding: 0.8rem 1.5rem;
-            }
-
-            .header-nav {
-                position: static;
-                text-align: center;
-                margin-bottom: 1rem;
-            }
-        }
-
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeIn 0.8s ease forwards;
-        }
-
-        .fade-in:nth-child(1) { animation-delay: 0.1s; }
-        .fade-in:nth-child(2) { animation-delay: 0.2s; }
-        .fade-in:nth-child(3) { animation-delay: 0.3s; }
-        .fade-in:nth-child(4) { animation-delay: 0.4s; }
-        .fade-in:nth-child(5) { animation-delay: 0.5s; }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+    <title>季成 - 前端开发工程师</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header-nav">
-                <a href="chat/" class="nav-link">🤖 AI对话</a>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">JC</div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">首页</a>
+                <a href="#about" class="nav-link">关于</a>
+                <a href="#skills" class="nav-link">技能</a>
+                <a href="#experience" class="nav-link">经历</a>
+                <a href="#projects" class="nav-link">项目</a>
+                <a href="#contact" class="nav-link">联系</a>
             </div>
-            <div class="profile-img">👨‍💻</div>
-            <h1>Irawill</h1>
-            <p class="subtitle">开发者 | 创作者 | 技术爱好者</p>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="container">
-        <div class="main-content">
-            <section class="section fade-in">
-                <h2>关于我</h2>
-                <p>欢迎来到我的个人主页！我是一名热爱技术的开发者，专注于创造有意义的数字体验。我喜欢学习新技术，解决复杂问题，并与社区分享我的知识和经验。</p>
-            </section>
-
-            <section class="section fade-in">
-                <h2>技能专长</h2>
-                <div class="skills-grid">
-                    <div class="skill-item">前端开发</div>
-                    <div class="skill-item">后端开发</div>
-                    <div class="skill-item">数据库设计</div>
-                    <div class="skill-item">云计算</div>
-                    <div class="skill-item">DevOps</div>
-                    <div class="skill-item">移动开发</div>
-                </div>
-            </section>
-
-            <section class="section fade-in">
-                <h2>项目展示</h2>
-                <div class="projects-grid">
-                    <div class="project-card special">
-                        <div class="project-title">AI对话助手</div>
-                        <div class="project-desc">基于Claude API构建的智能对话系统，支持实时对话和TypeScript开发。</div>
-                        <div class="tech-tags">
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">Claude API</span>
-                        </div>
-                        <a href="chat/" class="project-link">立即体验 →</a>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-title">个人博客系统</div>
-                        <div class="project-desc">基于现代Web技术栈构建的响应式博客平台，支持Markdown写作和主题定制。</div>
-                        <div class="tech-tags">
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">MongoDB</span>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-title">开源工具库</div>
-                        <div class="project-desc">一个实用的JavaScript工具库，提供常用的开发辅助函数和组件。</div>
-                        <div class="tech-tags">
-                            <span class="tech-tag">JavaScript</span>
-                            <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">Jest</span>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-title">移动应用</div>
-                        <div class="project-desc">跨平台移动应用，提供直观的用户界面和流畅的用户体验。</div>
-                        <div class="tech-tags">
-                            <span class="tech-tag">React Native</span>
-                            <span class="tech-tag">Firebase</span>
-                            <span class="tech-tag">Redux</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section fade-in">
-                <h2>联系我</h2>
-                <div class="contact-links">
-                    <a href="https://github.com/irawill" class="contact-link" target="_blank">
-                        🐙 GitHub
-                    </a>
-                    <a href="mailto:your.email@example.com" class="contact-link">
-                        📧 邮箱
-                    </a>
-                    <a href="#" class="contact-link">
-                        💼 LinkedIn
-                    </a>
-                    <a href="#" class="contact-link">
-                        🐦 Twitter
-                    </a>
-                </div>
-            </section>
+    <!-- 主页 Hero 区域 -->
+    <section id="home" class="hero">
+        <div class="hero-bg">
+            <div class="particles"></div>
         </div>
-    </main>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="text-gradient">季成</span>
+            </h1>
+            <h2 class="hero-subtitle typing">前端开发工程师</h2>
+            <p class="hero-description">9年+前端经验 | 技术与业务并重</p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn-primary">联系我</a>
+                <a href="#projects" class="btn btn-outline">查看作品</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" data-count="9">0</span>+
+                    <span class="stat-label">年经验</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="50">0</span>+
+                    <span class="stat-label">完成项目</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-count="5">0</span>
+                    <span class="stat-label">知名企业</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span></span>
+        </div>
+    </section>
 
-    <footer>
+    <!-- 关于我 -->
+    <section id="about" class="about">
         <div class="container">
-            <p>&copy; 2025 Irawill. 保留所有权利。</p>
+            <h2 class="section-title">关于我</h2>
+            <div class="about-content">
+                <div class="about-card">
+                    <div class="card-icon">🚀</div>
+                    <h3>架构设计</h3>
+                    <p>负责多项B端平台的前端架构与落地，推动微前端化与模块化拆分</p>
+                </div>
+                <div class="about-card">
+                    <div class="card-icon">🎨</div>
+                    <h3>组件沉淀</h3>
+                    <p>抽象中后台通用组件，设计沉浸式文档阅读SDK，5分钟快速集成</p>
+                </div>
+                <div class="about-card">
+                    <div class="card-icon">📊</div>
+                    <h3>数据可视化</h3>
+                    <p>封装甘特图与大数据表格组件，基于ECharts/D3实现复杂图表</p>
+                </div>
+                <div class="about-card">
+                    <div class="card-icon">🎯</div>
+                    <h3>全栈能力</h3>
+                    <p>既有C端播放器/互动业务经验，也有B端工程化与平台化沉淀</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技能 -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">技术栈</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>前端框架</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Vue</span>
+                        <span class="skill-tag">Angular</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>可视化</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">ECharts</span>
+                        <span class="skill-tag">D3.js</span>
+                        <span class="skill-tag">AntV</span>
+                        <span class="skill-tag">WebGL</span>
+                        <span class="skill-tag">Lottie</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>工程化</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Webpack 5</span>
+                        <span class="skill-tag">微前端</span>
+                        <span class="skill-tag">CI/CD</span>
+                        <span class="skill-tag">Module Federation</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>全栈技术</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">Express</span>
+                        <span class="skill-tag">MongoDB</span>
+                        <span class="skill-tag">RESTful API</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 工作经历 -->
+    <section id="experience" class="experience">
+        <div class="container">
+            <h2 class="section-title">工作经历</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2021.08 - 2025.07</div>
+                    <div class="timeline-content">
+                        <h3>蚂蚁胜信（上海）信息技术有限公司</h3>
+                        <p class="timeline-role">前端开发工程师</p>
+                        <ul>
+                            <li>负责研发效能、技术风险等平台工程业务，担任前端一号位</li>
+                            <li>负责技术风险领域下AI平台从0到1建设，支持智能体流程编排</li>
+                            <li>推动大型工程微前端拆分，改善页面加载与开发体验</li>
+                            <li>设计沉浸式文档阅读SDK，5分钟接入，在多BU推广</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2019.06 - 2021.08</div>
+                    <div class="timeline-content">
+                        <h3>小红书科技有限公司</h3>
+                        <p class="timeline-role">前端开发工程师</p>
+                        <ul>
+                            <li>搭建活动H5平台，实现运营自助搭建与多平台快速接入</li>
+                            <li>基于ECharts/D3封装常用可视化组件，统一图表规范</li>
+                            <li>规范化动效（Lottie+WebGL），形成标准化玩法</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2018.07 - 2019.05</div>
+                    <div class="timeline-content">
+                        <h3>北京爱奇艺科技有限公司</h3>
+                        <p class="timeline-role">前端开发工程师</p>
+                        <ul>
+                            <li>负责直播播放器相关业务，覆盖PC Web/桌面客户端/移动端</li>
+                            <li>优化播控体验与视频流输出链路</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2016.06 - 2018.06</div>
+                    <div class="timeline-content">
+                        <h3>上海沙湖信息科技有限公司</h3>
+                        <p class="timeline-role">前端开发工程师</p>
+                        <ul>
+                            <li>使用Express+MongoDB设计与实现RESTful API</li>
+                            <li>参与混合App开发，落地烟感物联网平台</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目展示 -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">代表项目</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>沉浸式文档阅读解决方案</h3>
+                        <span class="project-date">2022.07 - 2023.12</span>
+                    </div>
+                    <p>在中后台不切换标签页即可查阅/操作文档，新人上手更顺畅。以SDK形式封装，支持Markdown/HTML/语雀，5分钟快速集成，在多个业务线推广应用。</p>
+                    <div class="project-tags">
+                        <span>SDK设计</span>
+                        <span>Markdown</span>
+                        <span>产品化</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>活动H5平台</h3>
+                        <span class="project-date">2020.07 - 2021.03</span>
+                    </div>
+                    <p>统一schema与数据管理，编辑器与活动页双向联动。形成可复用的活动组件生态，支撑多品牌活动上线。</p>
+                    <div class="project-tags">
+                        <span>低代码</span>
+                        <span>组件化</span>
+                        <span>平台化</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>惊喜盒子（活动动效体系）</h3>
+                        <span class="project-date">2020.03 - 2020.06</span>
+                    </div>
+                    <p>基于Lottie标准化动效素材与触发逻辑，使用WebGL实现半透明浮层等彩蛋效果，玩法复用与曝光更稳定。</p>
+                    <div class="project-tags">
+                        <span>Lottie</span>
+                        <span>WebGL</span>
+                        <span>动效</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3>爱奇艺直播</h3>
+                        <span class="project-date">2018.07 - 2019.06</span>
+                    </div>
+                    <p>播放器播控体验优化、视频流输出处理、日志埋点/投递、聊天室等模块完善，适配多端。</p>
+                    <div class="project-tags">
+                        <span>播放器</span>
+                        <span>直播</span>
+                        <span>多端适配</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系方式 -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">联系我</h2>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span class="contact-icon">📍</span>
+                    <span>上海</span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">📱</span>
+                    <span>185-1666-0118</span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">📧</span>
+                    <a href="mailto:redwill@126.com">redwill@126.com</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 季成. 此站点由 <span class="text-gradient">Claude AI</span> 生成</p>
         </div>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
