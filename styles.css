@@ -9,6 +9,14 @@
     --secondary-color: #8b5cf6;
     --accent-color: #ec4899;
     --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+    /* 默认为暗黑模式 */
+    --bg-primary: #0f0f23;
+    --bg-secondary: #1a1a2e;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --border-color: rgba(99, 102, 241, 0.2);
+    --card-bg: rgba(99, 102, 241, 0.1);
 }
 
 [data-theme="dark"] {
@@ -22,20 +30,11 @@
 
 [data-theme="light"] {
     --bg-primary: #ffffff;
-    --bg-secondary: #f8fafc;
-    --text-primary: #1e293b;
-    --text-secondary: #64748b;
-    --border-color: rgba(99, 102, 241, 0.3);
-    --card-bg: rgba(99, 102, 241, 0.05);
-}
-
-:root {
-    --bg-primary: #0f0f23;
-    --bg-secondary: #1a1a2e;
-    --text-primary: #ffffff;
-    --text-secondary: #a0a0a0;
-    --border-color: rgba(99, 102, 241, 0.2);
-    --card-bg: rgba(99, 102, 241, 0.1);
+    --bg-secondary: #f7fafc;
+    --text-primary: #1a202c;
+    --text-secondary: #4a5568;
+    --border-color: rgba(99, 102, 241, 0.15);
+    --card-bg: rgba(99, 102, 241, 0.03);
 }
 
 body {
@@ -60,8 +59,9 @@ body {
 }
 
 [data-theme="light"] .navbar {
-    background: rgba(248, 250, 252, 0.95);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(99, 102, 241, 0.1);
 }
 
 .nav-container {
@@ -115,7 +115,22 @@ body {
     height: 2px;
     background: var(--text-primary);
     margin: 3px 0;
-    transition: 0.3s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+}
+
+/* 汉堡按钮动画 */
+.nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
 }
 
 /* Hero Section */
@@ -559,6 +574,115 @@ section {
 
 .footer p {
     color: var(--text-secondary);
+}
+
+/* 移动端菜单样式 */
+.mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.mobile-nav-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.nav-menu.mobile-menu {
+    position: fixed;
+    top: 80px;
+    left: 1rem;
+    right: 1rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px);
+    z-index: 1000;
+    flex-direction: column;
+    padding: 1.5rem;
+    gap: 0;
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+[data-theme="light"] .nav-menu.mobile-menu {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.nav-menu.mobile-menu.active {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.nav-menu.mobile-menu .nav-link {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    margin: 0.25rem 0;
+    padding: 0.75rem 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-menu.mobile-menu .nav-link:last-child {
+    border-bottom: none;
+}
+
+.nav-menu.mobile-menu .nav-link:hover {
+    background: var(--card-bg);
+    color: var(--primary-color);
+    transform: translateX(8px);
+}
+
+.nav-menu.mobile-menu .nav-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--primary-color);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.nav-menu.mobile-menu .nav-link:hover::before {
+    transform: scaleY(1);
+}
+
+/* 移动端菜单项的点击效果 */
+.nav-menu.mobile-menu .nav-link:active {
+    transform: translateX(8px) scale(0.98);
+    background: var(--primary-color);
+    color: white;
+}
+
+/* 移动端菜单的进入动画 */
+@keyframes slideInDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.nav-menu.mobile-menu.active {
+    animation: slideInDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* 响应式设计 */

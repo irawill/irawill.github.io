@@ -1,10 +1,35 @@
 // 计算工作经验年数
-function calculateYearsOfExperience() {
-    const startDate = new Date(2016, 5); // 2016年6月 (月份从0开始)
-    const currentDate = new Date();
-    const years = Math.floor((currentDate - startDate) / (365.25 * 24 * 60 * 60 * 1000));
-    return years;
+// 精确计算工作年限（支持返回整年或带小数）
+// 说明：
+// - 整年：周年未到不算入该年
+// - 小数：按“本周年->下周年”的实际天数做比例
+// - 全程使用 UTC，避免时区/DST 影响
+function calculateYearsOfExperience(startDate = new Date(2016, 6, 1), endDate = new Date(), { fractional = false, clampFutureToZero = true } = {}) {
+    // 支持传字符串或 Date
+    const s0 = (startDate instanceof Date) ? startDate : new Date(startDate);
+    const e0 = (endDate instanceof Date) ? endDate : new Date(endDate);
+
+    // 归一到 UTC 的“日期”（去掉时间部分）
+    const toUTCDate = (d) => new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    const s = toUTCDate(s0);
+    const e = toUTCDate(e0);
+
+    if (e < s) return clampFutureToZero ? 0 : -calculateYearsOfExperience(e, s, { fractional: true, clampFutureToZero: false });
+
+    // 先算整年
+    let years = e.getUTCFullYear() - s.getUTCFullYear();
+    const anniversaryThisYear = new Date(Date.UTC(e.getUTCFullYear(), s.getUTCMonth(), s.getUTCDate()));
+    if (e < anniversaryThisYear) years--; // 周年没到，再减一年
+
+    if (!fractional) return years; // 只要整年，直接返回
+
+    // 计算小数：本周年到下周年的比例
+    const lastAnniv = new Date(Date.UTC(s.getUTCFullYear() + years, s.getUTCMonth(), s.getUTCDate()));
+    const nextAnniv = new Date(Date.UTC(s.getUTCFullYear() + years + 1, s.getUTCMonth(), s.getUTCDate()));
+    const fraction = (e - lastAnniv) / (nextAnniv - lastAnniv);
+    return years + fraction;
 }
+
 
 // 语言配置
 const languages = {
@@ -16,14 +41,14 @@ const languages = {
         navExperience: '经历',
         navProjects: '项目',
         navContact: '联系',
-        
+
         // Hero section
         heroTitle: '威尔',
         heroSubtitle: '前端开发工程师',
         heroDescription: `${calculateYearsOfExperience()}年+前端经验 | 技术与业务并重`,
         heroContact: '联系我',
         heroProjects: '查看作品',
-        
+
         // About section
         aboutTitle: '关于我',
         aboutArch: '架构设计',
@@ -34,14 +59,14 @@ const languages = {
         aboutVizDesc: '封装甘特图与大数据表格组件，基于ECharts/D3实现复杂图表',
         aboutFullstack: '全栈能力',
         aboutFullstackDesc: '既有C端播放器/互动业务经验，也有B端工程化与平台化沉淀',
-        
+
         // Skills section
         skillsTitle: '技术栈',
         skillsFrontend: '前端框架',
         skillsViz: '可视化',
         skillsEngineering: '工程化',
         skillsFullstack: '全栈技术',
-        
+
         // Experience section
         experienceTitle: '工作经历',
         exp1Company: '蚂蚁胜信（上海）信息技术有限公司',
@@ -71,7 +96,7 @@ const languages = {
             '使用Express+MongoDB设计与实现RESTful API',
             '参与混合App开发，落地烟感物联网平台'
         ],
-        
+
         // Projects section
         projectsTitle: '代表项目',
         proj1Title: '沉浸式文档阅读解决方案',
@@ -86,14 +111,20 @@ const languages = {
         proj4Title: '爱奇艺直播',
         proj4Desc: '播放器播控体验优化、视频流输出处理、日志埋点/投递、聊天室等模块完善，适配多端。',
         proj4Tags: ['播放器', '直播', '多端适配'],
-        
+
         // Contact section
         contactTitle: '联系我',
         contactLocation: '上海',
-        
+        contactWebsite: '个人站点',
+
         // Footer
         footerText: '此站点由',
         footerText1: '生成',
+
+        // Page title
+        pageTitle: '威尔 - 前端开发工程师',
+        pageTitleAway: '👋 别走，还有很多精彩内容！',
+        pageTitleBack: '🎉 欢迎回来！继续探索吧～',
     },
     en: {
         // Navigation
@@ -103,14 +134,14 @@ const languages = {
         navExperience: 'Experience',
         navProjects: 'Projects',
         navContact: 'Contact',
-        
+
         // Hero section
         heroTitle: 'Will',
         heroSubtitle: 'Frontend Developer',
         heroDescription: `${calculateYearsOfExperience()}+ Years Experience | Tech & Business Focus`,
         heroContact: 'Contact Me',
         heroProjects: 'View Projects',
-        
+
         // About section
         aboutTitle: 'About Me',
         aboutArch: 'Architecture',
@@ -121,14 +152,14 @@ const languages = {
         aboutVizDesc: 'Encapsulate Gantt charts and big data table components, implement complex charts based on ECharts/D3',
         aboutFullstack: 'Full-stack',
         aboutFullstackDesc: 'Experience in both C-end player/interactive business and B-end engineering platform development',
-        
+
         // Skills section
         skillsTitle: 'Tech Stack',
         skillsFrontend: 'Frontend',
         skillsViz: 'Visualization',
         skillsEngineering: 'Engineering',
         skillsFullstack: 'Full-stack',
-        
+
         // Experience section
         experienceTitle: 'Experience',
         exp1Company: 'Ant Group',
@@ -158,7 +189,7 @@ const languages = {
             'Designed and implemented RESTful APIs using Express+MongoDB',
             'Participated in hybrid app development for IoT smoke detection platform'
         ],
-        
+
         // Projects section
         projectsTitle: 'Key Projects',
         proj1Title: 'Immersive Document Reading Solution',
@@ -173,14 +204,20 @@ const languages = {
         proj4Title: 'iQiyi Live Streaming',
         proj4Desc: 'Player control experience optimization, video stream output processing, logging/delivery, chat room enhancements, multi-platform adaptation.',
         proj4Tags: ['Player', 'Live Streaming', 'Multi-platform'],
-        
+
         // Contact section
         contactTitle: 'Contact',
         contactLocation: 'Shanghai',
-        
+        contactWebsite: 'Personal Website',
+
         // Footer
         footerText: 'Generated by',
         footerText1: '',
+
+        // Page title
+        pageTitle: 'Will - Frontend Developer',
+        pageTitleAway: '👋 Don\'t leave! More amazing content awaits!',
+        pageTitleBack: '🎉 Welcome back! Continue exploring～',
     }
 };
 
@@ -191,115 +228,135 @@ class ThemeLanguageManager {
         this.currentLanguage = this.getSystemLanguage();
         this.init();
     }
-    
+
     getSystemTheme() {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) return savedTheme;
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
-    
+
     getSystemLanguage() {
-        const savedLang = localStorage.getItem('language');
-        if (savedLang) return savedLang;
         const browserLang = navigator.language || navigator.userLanguage;
         return browserLang.startsWith('zh') ? 'zh' : 'en';
     }
-    
+
     init() {
         this.setTheme(this.currentTheme);
         this.setLanguage(this.currentLanguage);
         this.bindEvents();
         this.updateToggleButtons();
     }
-    
+
     bindEvents() {
         document.querySelector('.theme-toggle').addEventListener('click', () => {
             this.toggleTheme();
         });
-        
+
         document.querySelector('.lang-toggle').addEventListener('click', () => {
             this.toggleLanguage();
         });
     }
-    
+
     toggleTheme() {
         this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
         this.setTheme(this.currentTheme);
         this.updateToggleButtons();
-        localStorage.setItem('theme', this.currentTheme);
     }
-    
+
     toggleLanguage() {
         this.currentLanguage = this.currentLanguage === 'zh' ? 'en' : 'zh';
         this.setLanguage(this.currentLanguage);
         this.updateToggleButtons();
-        localStorage.setItem('language', this.currentLanguage);
     }
-    
+
     setTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
         document.querySelector('html').setAttribute('lang', this.currentLanguage === 'zh' ? 'zh-CN' : 'en');
+        
+        // 立即更新导航栏背景色以匹配当前滚动位置和新主题
+        this.updateNavbarBackground(theme);
     }
-    
+
+    updateNavbarBackground(theme) {
+        const navbar = document.querySelector('.navbar');
+        const currentScroll = window.pageYOffset;
+        
+        if (currentScroll > 100) {
+            if (theme === 'light') {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+            } else {
+                navbar.style.background = 'rgba(15, 15, 35, 0.98)';
+                navbar.style.boxShadow = '0 5px 20px rgba(0,0,0,0.3)';
+            }
+        } else {
+            if (theme === 'light') {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = 'none';
+            } else {
+                navbar.style.background = 'rgba(15, 15, 35, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        }
+    }
+
     setLanguage(language) {
         document.querySelector('html').setAttribute('lang', language === 'zh' ? 'zh-CN' : 'en');
         this.updateContent(language);
     }
-    
+
     updateToggleButtons() {
         const themeBtn = document.querySelector('.theme-toggle');
         const langBtn = document.querySelector('.lang-toggle');
-        
+
         themeBtn.textContent = this.currentTheme === 'dark' ? '☀️' : '🌙';
         langBtn.textContent = this.currentLanguage === 'zh' ? 'EN' : '中';
     }
-    
+
     updateContent(language) {
-        const lang = languages[language];
-        
+        const langConfig = languages[language];
+
         // Update navigation
         const navLinks = document.querySelectorAll('.nav-link');
-        navLinks[0].textContent = lang.navHome;
-        navLinks[1].textContent = lang.navAbout;
-        navLinks[2].textContent = lang.navSkills;
-        navLinks[3].textContent = lang.navExperience;
-        navLinks[4].textContent = lang.navProjects;
-        navLinks[5].textContent = lang.navContact;
-        
+        navLinks[0].textContent = langConfig.navHome;
+        navLinks[1].textContent = langConfig.navAbout;
+        navLinks[2].textContent = langConfig.navSkills;
+        navLinks[3].textContent = langConfig.navExperience;
+        navLinks[4].textContent = langConfig.navProjects;
+        navLinks[5].textContent = langConfig.navContact;
+
         // Update hero section
-        document.querySelector('.text-gradient').textContent = lang.heroTitle;
-        document.querySelector('.hero-subtitle').textContent = lang.heroSubtitle;
-        document.querySelector('.hero-description').textContent = lang.heroDescription;
-        document.querySelectorAll('.btn')[0].textContent = lang.heroContact;
-        document.querySelectorAll('.btn')[1].textContent = lang.heroProjects;
-        
+        document.querySelector('.text-gradient').textContent = langConfig.heroTitle;
+        document.querySelector('.hero-subtitle').textContent = langConfig.heroSubtitle;
+        document.querySelector('.hero-description').textContent = langConfig.heroDescription;
+        document.querySelectorAll('.btn')[0].textContent = langConfig.heroContact;
+        document.querySelectorAll('.btn')[1].textContent = langConfig.heroProjects;
+
         // Update section titles
-        document.querySelectorAll('.section-title')[0].textContent = lang.aboutTitle;
-        document.querySelectorAll('.section-title')[1].textContent = lang.skillsTitle;
-        document.querySelectorAll('.section-title')[2].textContent = lang.experienceTitle;
-        document.querySelectorAll('.section-title')[3].textContent = lang.projectsTitle;
-        document.querySelectorAll('.section-title')[4].textContent = lang.contactTitle;
-        
+        document.querySelectorAll('.section-title')[0].textContent = langConfig.aboutTitle;
+        document.querySelectorAll('.section-title')[1].textContent = langConfig.skillsTitle;
+        document.querySelectorAll('.section-title')[2].textContent = langConfig.experienceTitle;
+        document.querySelectorAll('.section-title')[3].textContent = langConfig.projectsTitle;
+        document.querySelectorAll('.section-title')[4].textContent = langConfig.contactTitle;
+
         // Update about cards
         const aboutCards = document.querySelectorAll('.about-card h3');
-        aboutCards[0].textContent = lang.aboutArch;
-        aboutCards[1].textContent = lang.aboutComponents;
-        aboutCards[2].textContent = lang.aboutViz;
-        aboutCards[3].textContent = lang.aboutFullstack;
-        
+        aboutCards[0].textContent = langConfig.aboutArch;
+        aboutCards[1].textContent = langConfig.aboutComponents;
+        aboutCards[2].textContent = langConfig.aboutViz;
+        aboutCards[3].textContent = langConfig.aboutFullstack;
+
         const aboutDescs = document.querySelectorAll('.about-card p');
-        aboutDescs[0].textContent = lang.aboutArchDesc;
-        aboutDescs[1].textContent = lang.aboutComponentsDesc;
-        aboutDescs[2].textContent = lang.aboutVizDesc;
-        aboutDescs[3].textContent = lang.aboutFullstackDesc;
-        
+        aboutDescs[0].textContent = langConfig.aboutArchDesc;
+        aboutDescs[1].textContent = langConfig.aboutComponentsDesc;
+        aboutDescs[2].textContent = langConfig.aboutVizDesc;
+        aboutDescs[3].textContent = langConfig.aboutFullstackDesc;
+
         // Update skills categories
         const skillCategories = document.querySelectorAll('.skill-category h3');
-        skillCategories[0].textContent = lang.skillsFrontend;
-        skillCategories[1].textContent = lang.skillsViz;
-        skillCategories[2].textContent = lang.skillsEngineering;
-        skillCategories[3].textContent = lang.skillsFullstack;
-        
+        skillCategories[0].textContent = langConfig.skillsFrontend;
+        skillCategories[1].textContent = langConfig.skillsViz;
+        skillCategories[2].textContent = langConfig.skillsEngineering;
+        skillCategories[3].textContent = langConfig.skillsFullstack;
+
         // Update skill tags (specifically for 微前端)
         const skillTags = document.querySelectorAll('.skill-tag');
         skillTags.forEach(tag => {
@@ -309,18 +366,18 @@ class ThemeLanguageManager {
                 tag.textContent = '微前端';
             }
         });
-        
+
         // Update experience section
         const timelineItems = document.querySelectorAll('.timeline-item');
-        const companies = [lang.exp1Company, lang.exp2Company, lang.exp3Company, lang.exp4Company];
-        const roles = [lang.exp1Role, lang.exp2Role, lang.exp3Role, lang.exp4Role];
-        const tasks = [lang.exp1Tasks, lang.exp2Tasks, lang.exp3Tasks, lang.exp4Tasks];
-        
+        const companies = [langConfig.exp1Company, langConfig.exp2Company, langConfig.exp3Company, langConfig.exp4Company];
+        const roles = [langConfig.exp1Role, langConfig.exp2Role, langConfig.exp3Role, langConfig.exp4Role];
+        const tasks = [langConfig.exp1Tasks, langConfig.exp2Tasks, langConfig.exp3Tasks, langConfig.exp4Tasks];
+
         timelineItems.forEach((item, index) => {
             const company = item.querySelector('.timeline-content h3');
             const role = item.querySelector('.timeline-role');
             const taskList = item.querySelectorAll('.timeline-content li');
-            
+
             if (company && companies[index]) {
                 company.textContent = companies[index];
             }
@@ -335,18 +392,18 @@ class ThemeLanguageManager {
                 });
             }
         });
-        
+
         // Update projects section
         const projectCards = document.querySelectorAll('.project-card');
-        const projTitles = [lang.proj1Title, lang.proj2Title, lang.proj3Title, lang.proj4Title];
-        const projDescs = [lang.proj1Desc, lang.proj2Desc, lang.proj3Desc, lang.proj4Desc];
-        const projTags = [lang.proj1Tags, lang.proj2Tags, lang.proj3Tags, lang.proj4Tags];
-        
+        const projTitles = [langConfig.proj1Title, langConfig.proj2Title, langConfig.proj3Title, langConfig.proj4Title];
+        const projDescs = [langConfig.proj1Desc, langConfig.proj2Desc, langConfig.proj3Desc, langConfig.proj4Desc];
+        const projTags = [langConfig.proj1Tags, langConfig.proj2Tags, langConfig.proj3Tags, langConfig.proj4Tags];
+
         projectCards.forEach((card, index) => {
             const title = card.querySelector('.project-header h3');
             const desc = card.querySelector('p');
             const tags = card.querySelectorAll('.project-tags span');
-            
+
             if (title && projTitles[index]) {
                 title.textContent = projTitles[index];
             }
@@ -361,49 +418,80 @@ class ThemeLanguageManager {
                 });
             }
         });
-        
-        // Update contact location
-        const contactItems = document.querySelectorAll('.contact-item span');
+
+        // Update contact location and website
+        const contactItems = document.querySelectorAll('.contact-item');
         contactItems.forEach(item => {
-            if (item.textContent === '上海' && language === 'en') {
-                item.textContent = lang.contactLocation;
-            } else if (item.textContent === 'Shanghai' && language === 'zh') {
-                item.textContent = lang.contactLocation;
+            const span = item.querySelector('span:not(.contact-icon)');
+            const link = item.querySelector('a');
+            
+            if (span) {
+                if (span.textContent === '上海' && language === 'en') {
+                    span.textContent = langConfig.contactLocation;
+                } else if (span.textContent === 'Shanghai' && language === 'zh') {
+                    span.textContent = langConfig.contactLocation;
+                }
+            }
+            
+            if (link && link.href === 'https://irawill.space/') {
+                if (link.textContent === '个人站点' && language === 'en') {
+                    link.textContent = langConfig.contactWebsite;
+                } else if (link.textContent === 'Personal Website' && language === 'zh') {
+                    link.textContent = langConfig.contactWebsite;
+                }
             }
         });
-        
+
         // Update footer
         const footerText = document.querySelector('.footer p');
-        footerText.innerHTML = `© 2025 Will. ${lang.footerText} <span class="text-gradient">Claude AI</span> ${lang.footerText1}`;
-        
+        footerText.innerHTML = `© 2025 Will. ${langConfig.footerText} <span class="text-gradient">Claude AI</span> ${langConfig.footerText1}`;
+
         // Update document title
-        document.title = language === 'zh' ? '威尔 - 前端开发工程师' : 'Will - Frontend Developer';
+        document.title = langConfig.pageTitle;
         document.querySelector('html').setAttribute('lang', language === 'zh' ? 'zh-CN' : 'en');
+    }
+
+    getCurrentLanguage() {
+        return this.currentLanguage;
     }
 }
 
+// 全局主题和语言管理器实例
+let themeLanguageManager;
+
 // 页面加载动画
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // 初始化主题和语言管理器
-    new ThemeLanguageManager();
+    themeLanguageManager = new ThemeLanguageManager();
     // 导航栏滚动效果
     const navbar = document.querySelector('.navbar');
     let lastScroll = 0;
-    
+
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
-        
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+
         if (currentScroll > 100) {
-            navbar.style.background = 'rgba(15, 15, 35, 0.98)';
-            navbar.style.boxShadow = '0 5px 20px rgba(0,0,0,0.3)';
+            if (currentTheme === 'light') {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+            } else {
+                navbar.style.background = 'rgba(15, 15, 35, 0.98)';
+                navbar.style.boxShadow = '0 5px 20px rgba(0,0,0,0.3)';
+            }
         } else {
-            navbar.style.background = 'rgba(15, 15, 35, 0.95)';
-            navbar.style.boxShadow = 'none';
+            if (currentTheme === 'light') {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = 'none';
+            } else {
+                navbar.style.background = 'rgba(15, 15, 35, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
         }
-        
+
         lastScroll = currentScroll;
     });
-    
+
     // 平滑滚动
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -417,7 +505,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
+
     // 数字动画
     const animateValue = (element, start, end, duration) => {
         let startTimestamp = null;
@@ -431,13 +519,13 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         window.requestAnimationFrame(step);
     };
-    
+
     // 监测元素是否在视口
     const observerOptions = {
         threshold: 0.5,
         rootMargin: '0px'
     };
-    
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -451,34 +539,82 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }, observerOptions);
-    
+
     // 观察需要动画的元素
     document.querySelectorAll('.about-card').forEach(el => observer.observe(el));
     document.querySelectorAll('.timeline-item').forEach(el => observer.observe(el));
     document.querySelectorAll('.project-card').forEach(el => observer.observe(el));
-    
+
     // 移动端菜单切换
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
-    
-    navToggle.addEventListener('click', () => {
-        navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
-        navMenu.style.position = 'absolute';
-        navMenu.style.top = '100%';
-        navMenu.style.left = '0';
-        navMenu.style.right = '0';
-        navMenu.style.background = 'rgba(15, 15, 35, 0.98)';
-        navMenu.style.flexDirection = 'column';
-        navMenu.style.padding = '1rem';
+    const mobileOverlay = document.querySelector('.mobile-nav-overlay');
+    let isMobileMenuOpen = false;
+
+    function toggleMobileMenu() {
+        isMobileMenuOpen = !isMobileMenuOpen;
+        
+        if (isMobileMenuOpen) {
+            // 打开菜单
+            navMenu.style.display = 'flex';
+            navMenu.classList.add('mobile-menu');
+            mobileOverlay.classList.add('active');
+            
+            // 延迟添加active类以触发动画
+            setTimeout(() => {
+                navMenu.classList.add('active');
+            }, 10);
+            
+            // 阻止body滚动
+            document.body.style.overflow = 'hidden';
+            
+            // 更新汉堡按钮动画
+            navToggle.classList.add('active');
+        } else {
+            // 关闭菜单
+            navMenu.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+            
+            // 延迟隐藏以等待动画完成
+            setTimeout(() => {
+                navMenu.style.display = 'none';
+                navMenu.classList.remove('mobile-menu');
+            }, 300);
+            
+            // 恢复body滚动
+            document.body.style.overflow = '';
+            
+            // 更新汉堡按钮动画
+            navToggle.classList.remove('active');
+        }
+    }
+
+    navToggle.addEventListener('click', toggleMobileMenu);
+
+    // 点击遮罩关闭菜单
+    mobileOverlay.addEventListener('click', () => {
+        if (isMobileMenuOpen) {
+            toggleMobileMenu();
+        }
     });
-    
+
+    // 点击菜单项关闭菜单
+    const mobileNavLinks = document.querySelectorAll('.nav-link');
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (isMobileMenuOpen) {
+                toggleMobileMenu();
+            }
+        });
+    });
+
     // 打字机效果优化
     const typingElement = document.querySelector('.typing');
     if (typingElement) {
         const text = typingElement.textContent;
         typingElement.textContent = '';
         let index = 0;
-        
+
         const typeWriter = () => {
             if (index < text.length) {
                 typingElement.textContent += text.charAt(index);
@@ -486,29 +622,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(typeWriter, 100);
             }
         };
-        
+
         setTimeout(typeWriter, 500);
     }
-    
+
     // 技能标签悬停效果
     const skillTags = document.querySelectorAll('.skill-tag');
     skillTags.forEach(tag => {
-        tag.addEventListener('mouseenter', function() {
+        tag.addEventListener('mouseenter', function () {
             this.style.transform = 'scale(1.1) rotate(2deg)';
         });
-        
-        tag.addEventListener('mouseleave', function() {
+
+        tag.addEventListener('mouseleave', function () {
             this.style.transform = 'scale(1) rotate(0deg)';
         });
     });
-    
+
     // 创建粒子背景
     const createParticles = () => {
         const particlesContainer = document.querySelector('.particles');
         if (!particlesContainer) return;
-        
+
         const particleCount = 50;
-        
+
         for (let i = 0; i < particleCount; i++) {
             const particle = document.createElement('div');
             particle.style.position = 'absolute';
@@ -520,11 +656,11 @@ document.addEventListener('DOMContentLoaded', function() {
             particle.style.top = Math.random() * 100 + '%';
             particle.style.animation = `float ${Math.random() * 10 + 5}s infinite ease-in-out`;
             particle.style.animationDelay = Math.random() * 5 + 's';
-            
+
             particlesContainer.appendChild(particle);
         }
     };
-    
+
     // 添加浮动动画
     const style = document.createElement('style');
     style.textContent = `
@@ -544,25 +680,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     `;
     document.head.appendChild(style);
-    
+
     createParticles();
-    
+
     // 鼠标跟随效果
     const hero = document.querySelector('.hero');
     if (hero) {
         hero.addEventListener('mousemove', (e) => {
             const { clientX, clientY } = e;
             const { width, height } = hero.getBoundingClientRect();
-            
+
             const xPos = (clientX / width - 0.5) * 20;
             const yPos = (clientY / height - 0.5) * 20;
-            
+
             const heroContent = document.querySelector('.hero-content');
             if (heroContent) {
                 heroContent.style.transform = `perspective(1000px) rotateY(${xPos}deg) rotateX(${-yPos}deg)`;
             }
         });
-        
+
         hero.addEventListener('mouseleave', () => {
             const heroContent = document.querySelector('.hero-content');
             if (heroContent) {
@@ -570,23 +706,22 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
+
     // 激活导航链接
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
-    
+
     window.addEventListener('scroll', () => {
         let current = '';
-        
+
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            
+
             if (pageYOffset >= sectionTop - 100) {
                 current = section.getAttribute('id');
             }
         });
-        
+
         navLinks.forEach(link => {
             link.classList.remove('active');
             if (link.getAttribute('href').slice(1) === current) {
@@ -594,10 +729,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
+
     // 添加加载完成类
     document.body.classList.add('loaded');
-    
+
     // 控制台彩蛋
     console.log('%c👋 欢迎来到Will的个人站点！', 'font-size: 20px; color: #6366f1; font-weight: bold;');
     console.log('%c🚀 此站点由 Claude AI 生成', 'font-size: 16px; color: #8b5cf6;');
@@ -605,16 +740,34 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // 页面可见性改变时的标题动画
+let titleTimeout;
 document.addEventListener('visibilitychange', () => {
+    if (!themeLanguageManager) return;
+    
+    const currentLang = themeLanguageManager.getCurrentLanguage();
+    const lang = languages[currentLang];
+    
     if (document.hidden) {
-        document.title = '👋 别走，还有很多精彩内容！';
+        // 页面离开时显示挽留信息
+        document.title = lang.pageTitleAway;
     } else {
-        document.title = '威尔 - 前端开发工程师';
+        // 页面重新可见时先显示欢迎回来
+        document.title = lang.pageTitleBack;
+        
+        // 清除之前的定时器
+        if (titleTimeout) {
+            clearTimeout(titleTimeout);
+        }
+        
+        // 2秒后恢复正常标题
+        titleTimeout = setTimeout(() => {
+            document.title = lang.pageTitle;
+        }, 2000);
     }
 });
 
 // 防止右键菜单（可选）
-// document.addEventListener('contextmenu', (e) => e.preventDefault());
+document.addEventListener('contextmenu', (e) => e.preventDefault());
 
 // 添加键盘快捷键
 document.addEventListener('keydown', (e) => {
@@ -623,7 +776,7 @@ document.addEventListener('keydown', (e) => {
         e.preventDefault();
         document.querySelector('#contact').scrollIntoView({ behavior: 'smooth' });
     }
-    
+
     // ESC 返回顶部
     if (e.key === 'Escape') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
