@@ -224,8 +224,8 @@ const languages = {
 // 主题和语言管理
 class ThemeLanguageManager {
     constructor() {
-        this.currentTheme = this.getSystemTheme();
-        this.currentLanguage = this.getSystemLanguage();
+        this.currentTheme = this.getSavedTheme() || this.getSystemTheme();
+        this.currentLanguage = this.getSavedLanguage() || this.getSystemLanguage();
         this.init();
     }
 
@@ -236,6 +236,22 @@ class ThemeLanguageManager {
     getSystemLanguage() {
         const browserLang = navigator.language || navigator.userLanguage;
         return browserLang.startsWith('zh') ? 'zh' : 'en';
+    }
+
+    getSavedTheme() {
+        return localStorage.getItem('theme');
+    }
+
+    getSavedLanguage() {
+        return localStorage.getItem('language');
+    }
+
+    saveTheme(theme) {
+        localStorage.setItem('theme', theme);
+    }
+
+    saveLanguage(language) {
+        localStorage.setItem('language', language);
     }
 
     init() {
@@ -258,12 +274,14 @@ class ThemeLanguageManager {
     toggleTheme() {
         this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
         this.setTheme(this.currentTheme);
+        this.saveTheme(this.currentTheme);
         this.updateToggleButtons();
     }
 
     toggleLanguage() {
         this.currentLanguage = this.currentLanguage === 'zh' ? 'en' : 'zh';
         this.setLanguage(this.currentLanguage);
+        this.saveLanguage(this.currentLanguage);
         this.updateToggleButtons();
     }
 

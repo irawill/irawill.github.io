@@ -709,6 +709,17 @@ section {
         text-align: left;
     }
     
+    .timeline-content {
+        text-align: left;
+    }
+    
+    .timeline-content h3,
+    .timeline-content p,
+    .timeline-content ul,
+    .timeline-content li {
+        text-align: left;
+    }
+    
     .timeline-item::before {
         left: -45px;
     }
