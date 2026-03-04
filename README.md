@@ -52,4 +52,4 @@
 
 ---
 
-© 2025 Will. All rights reserved.
+© 2026 Will. All rights reserved.

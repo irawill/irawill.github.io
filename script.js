@@ -69,48 +69,70 @@ const languages = {
 
         // Experience section
         experienceTitle: '工作经历',
-        exp1Company: '蚂蚁胜信（上海）信息技术有限公司',
-        exp1Role: '前端开发工程师',
+        exp1Company: '某全球Top5数字金融科技集团',
+        exp1Role: '营销活动前端负责人',
+        exp1Date: '2025.09 - 至今',
         exp1Tasks: [
+            'Growth UI 组件库从0到1搭建（四层架构、CSS Module + Headless UI、dumi文档、Jest测试、CI/CD）',
+            '主导7+营销活动项目交付（WCTC赛事、万圣节活动、AI Trading竞赛等）',
+            'AI代码生成探索（图生代码、PRD模版化、Prompt优化、Vibe Coding）',
+            '工程基建（Builder水合治理、WebPro监控、Header动态配置）',
+            '团队管理（周会制度、OKR辅导、新人文档、跨团队协作）'
+        ],
+        exp2Company: '蚂蚁胜信（上海）信息技术有限公司',
+        exp2Role: '前端开发工程师',
+        exp2Date: '2021.08 - 2025.07',
+        exp2Tasks: [
             '负责研发效能、技术风险等平台工程业务，担任前端一号位',
             '负责技术风险领域下AI平台从0到1建设，支持智能体流程编排',
             '推动大型工程微前端拆分，改善页面加载与开发体验',
             '设计沉浸式文档阅读SDK，5分钟接入，在多BU推广'
         ],
-        exp2Company: '小红书科技有限公司',
-        exp2Role: '前端开发工程师',
-        exp2Tasks: [
+        exp3Company: '小红书科技有限公司',
+        exp3Role: '前端开发工程师',
+        exp3Date: '2019.06 - 2021.08',
+        exp3Tasks: [
             '搭建活动H5平台，实现运营自助搭建与多平台快速接入',
             '基于ECharts/D3封装常用可视化组件，统一图表规范',
             '规范化动效（Lottie+WebGL），形成标准化玩法'
         ],
-        exp3Company: '北京爱奇艺科技有限公司',
-        exp3Role: '前端开发工程师',
-        exp3Tasks: [
+        exp4Company: '北京爱奇艺科技有限公司',
+        exp4Role: '前端开发工程师',
+        exp4Date: '2018.07 - 2019.05',
+        exp4Tasks: [
             '负责直播播放器相关业务，覆盖PC Web/桌面客户端/移动端',
             '优化播控体验与视频流输出链路'
         ],
-        exp4Company: '上海沙湖信息科技有限公司',
-        exp4Role: '前端开发工程师',
-        exp4Tasks: [
+        exp5Company: '上海沙湖信息科技有限公司',
+        exp5Role: '前端开发工程师',
+        exp5Date: '2016.06 - 2018.06',
+        exp5Tasks: [
             '使用Express+MongoDB设计与实现RESTful API',
             '参与混合App开发，落地烟感物联网平台'
         ],
 
         // Projects section
         projectsTitle: '代表项目',
-        proj1Title: '沉浸式文档阅读解决方案',
-        proj1Desc: '在中后台不切换标签页即可查阅/操作文档，新人上手更顺畅。以SDK形式封装，支持Markdown/HTML/语雀，5分钟快速集成，在多个业务线推广应用。',
-        proj1Tags: ['SDK设计', 'Markdown', '产品化'],
-        proj2Title: '活动H5平台',
-        proj2Desc: '统一schema与数据管理，编辑器与活动页双向联动。形成可复用的活动组件生态，支撑多品牌活动上线。',
-        proj2Tags: ['低代码', '组件化', '平台化'],
-        proj3Title: '惊喜盒子（活动动效体系）',
-        proj3Desc: '基于Lottie标准化动效素材与触发逻辑，使用WebGL实现半透明浮层等彩蛋效果，玩法复用与曝光更稳定。',
-        proj3Tags: ['Lottie', 'WebGL', '动效'],
-        proj4Title: '爱奇艺直播',
-        proj4Desc: '播放器播控体验优化、视频流输出处理、日志埋点/投递、聊天室等模块完善，适配多端。',
-        proj4Tags: ['播放器', '直播', '多端适配'],
+        proj1Title: 'AI生成活动页',
+        proj1Date: '2026.01 - 至今',
+        proj1Desc: '主导活动侧AI生码方向探索，明确图生代码技术路线，PRD输入模版化，工程基座搭建，Prompt优化与Vibe Coding实践，提升活动页开发效率。',
+        proj1Tags: ['AI生码', 'Prompt Engineering', 'Vibe Coding'],
+        proj2Title: '沉浸式文档阅读解决方案',
+        proj2Date: '2022.07 - 2023.12',
+        proj2Desc: '在中后台不切换标签页即可查阅/操作文档，新人上手更顺畅。以SDK形式封装，支持Markdown/HTML/语雀，5分钟快速集成，在多个业务线推广应用。',
+        proj2Tags: ['SDK设计', 'Markdown', '产品化'],
+        proj3Title: '活动H5平台',
+        proj3Date: '2020.07 - 2021.03',
+        proj3Desc: '统一schema与数据管理，编辑器与活动页双向联动。形成可复用的活动组件生态，支撑多品牌活动上线。',
+        proj3Tags: ['低代码', '组件化', '平台化'],
+        proj4Title: '惊喜盒子（活动动效体系）',
+        proj4Date: '2020.03 - 2020.06',
+        proj4Desc: '基于Lottie标准化动效素材与触发逻辑，使用WebGL实现半透明浮层等彩蛋效果，玩法复用与曝光更稳定。',
+        proj4Tags: ['Lottie', 'WebGL', '动效'],
+        proj5Title: '爱奇艺直播',
+        proj5Date: '2018.07 - 2019.06',
+        proj5Desc: '播放器播控体验优化、视频流输出处理、日志埋点/投递、聊天室等模块完善，适配多端。',
+        proj5Tags: ['播放器', '直播', '多端适配'],
 
         // Contact section
         contactTitle: '联系我',
@@ -162,48 +184,70 @@ const languages = {
 
         // Experience section
         experienceTitle: 'Experience',
-        exp1Company: 'Ant Group',
-        exp1Role: 'Frontend Developer',
+        exp1Company: 'A Global Top-5 Digital Finance & Technology Group',
+        exp1Role: 'Marketing Activity Frontend Lead',
+        exp1Date: '2025.09 - Present',
         exp1Tasks: [
+            'Built Growth UI component library from scratch (4-layer architecture, CSS Module + Headless UI, dumi docs, Jest testing, CI/CD)',
+            'Led 7+ marketing campaign project deliveries (WCTC tournament, Halloween event, AI Trading competition, etc.)',
+            'AI code generation exploration (image-to-code, PRD templatization, Prompt optimization, Vibe Coding)',
+            'Engineering infrastructure (Builder hydration governance, WebPro monitoring, Header dynamic configuration)',
+            'Team management (weekly meetings, OKR coaching, onboarding docs, cross-team collaboration)'
+        ],
+        exp2Company: 'Ant Group',
+        exp2Role: 'Frontend Developer',
+        exp2Date: '2021.08 - 2025.07',
+        exp2Tasks: [
             'Lead platform engineering for R&D efficiency and tech risk, serving as frontend lead',
             'Built AI platform from scratch for tech risk domain, supporting intelligent agent workflow orchestration',
             'Promoted micro-frontend architecture for large-scale projects, improving page loading and development experience',
             'Designed immersive document reading SDK with 5-minute integration, promoted across multiple BUs'
         ],
-        exp2Company: 'REDnote',
-        exp2Role: 'Frontend Developer',
-        exp2Tasks: [
+        exp3Company: 'REDnote',
+        exp3Role: 'Frontend Developer',
+        exp3Date: '2019.06 - 2021.08',
+        exp3Tasks: [
             'Built H5 activity platform for self-service operations and multi-platform quick integration',
             'Encapsulated common visualization components based on ECharts/D3, unified chart specifications',
             'Standardized animations (Lottie+WebGL), forming standardized gameplay'
         ],
-        exp3Company: 'iQIYI',
-        exp3Role: 'Frontend Developer',
-        exp3Tasks: [
+        exp4Company: 'iQIYI',
+        exp4Role: 'Frontend Developer',
+        exp4Date: '2018.07 - 2019.05',
+        exp4Tasks: [
             'Led live streaming player business, covering PC Web/desktop client/mobile',
             'Optimized playback experience and video streaming output pipeline'
         ],
-        exp4Company: 'Sandlacus Technology Co.,Ltd.',
-        exp4Role: 'Frontend Developer',
-        exp4Tasks: [
+        exp5Company: 'Sandlacus Technology Co.,Ltd.',
+        exp5Role: 'Frontend Developer',
+        exp5Date: '2016.06 - 2018.06',
+        exp5Tasks: [
             'Designed and implemented RESTful APIs using Express+MongoDB',
             'Participated in hybrid app development for IoT smoke detection platform'
         ],
 
         // Projects section
         projectsTitle: 'Key Projects',
-        proj1Title: 'Immersive Document Reading Solution',
-        proj1Desc: 'Enable document viewing/editing within admin platforms without tab switching, improving onboarding experience. Packaged as SDK supporting Markdown/HTML/Yuque with 5-minute integration, promoted across multiple business lines.',
-        proj1Tags: ['SDK Design', 'Markdown', 'Product'],
-        proj2Title: 'H5 Activity Platform',
-        proj2Desc: 'Unified schema and data management with bidirectional editor-page synchronization. Built reusable activity component ecosystem supporting multi-brand campaign launches.',
-        proj2Tags: ['Low-code', 'Components', 'Platform'],
-        proj3Title: 'Surprise Box (Activity Animation System)',
-        proj3Desc: 'Standardized animation assets and trigger logic based on Lottie, implemented semi-transparent overlay effects with WebGL for stable gameplay reuse and exposure.',
-        proj3Tags: ['Lottie', 'WebGL', 'Animation'],
-        proj4Title: 'iQiyi Live Streaming',
-        proj4Desc: 'Player control experience optimization, video stream output processing, logging/delivery, chat room enhancements, multi-platform adaptation.',
-        proj4Tags: ['Player', 'Live Streaming', 'Multi-platform'],
+        proj1Title: 'AI-Generated Campaign Pages',
+        proj1Date: '2026.01 - Present',
+        proj1Desc: 'Led AI code generation exploration for marketing campaigns, established image-to-code technical roadmap, PRD input templatization, engineering foundation setup, Prompt optimization and Vibe Coding practices to improve campaign page development efficiency.',
+        proj1Tags: ['AI Code Gen', 'Prompt Engineering', 'Vibe Coding'],
+        proj2Title: 'Immersive Document Reading Solution',
+        proj2Date: '2022.07 - 2023.12',
+        proj2Desc: 'Enable document viewing/editing within admin platforms without tab switching, improving onboarding experience. Packaged as SDK supporting Markdown/HTML/Yuque with 5-minute integration, promoted across multiple business lines.',
+        proj2Tags: ['SDK Design', 'Markdown', 'Product'],
+        proj3Title: 'H5 Activity Platform',
+        proj3Date: '2020.07 - 2021.03',
+        proj3Desc: 'Unified schema and data management with bidirectional editor-page synchronization. Built reusable activity component ecosystem supporting multi-brand campaign launches.',
+        proj3Tags: ['Low-code', 'Components', 'Platform'],
+        proj4Title: 'Surprise Box (Activity Animation System)',
+        proj4Date: '2020.03 - 2020.06',
+        proj4Desc: 'Standardized animation assets and trigger logic based on Lottie, implemented semi-transparent overlay effects with WebGL for stable gameplay reuse and exposure.',
+        proj4Tags: ['Lottie', 'WebGL', 'Animation'],
+        proj5Title: 'iQiyi Live Streaming',
+        proj5Date: '2018.07 - 2019.06',
+        proj5Desc: 'Player control experience optimization, video stream output processing, logging/delivery, chat room enhancements, multi-platform adaptation.',
+        proj5Tags: ['Player', 'Live Streaming', 'Multi-platform'],
 
         // Contact section
         contactTitle: 'Contact',
@@ -387,15 +431,20 @@ class ThemeLanguageManager {
 
         // Update experience section
         const timelineItems = document.querySelectorAll('.timeline-item');
-        const companies = [langConfig.exp1Company, langConfig.exp2Company, langConfig.exp3Company, langConfig.exp4Company];
-        const roles = [langConfig.exp1Role, langConfig.exp2Role, langConfig.exp3Role, langConfig.exp4Role];
-        const tasks = [langConfig.exp1Tasks, langConfig.exp2Tasks, langConfig.exp3Tasks, langConfig.exp4Tasks];
+        const companies = [langConfig.exp1Company, langConfig.exp2Company, langConfig.exp3Company, langConfig.exp4Company, langConfig.exp5Company];
+        const roles = [langConfig.exp1Role, langConfig.exp2Role, langConfig.exp3Role, langConfig.exp4Role, langConfig.exp5Role];
+        const dates = [langConfig.exp1Date, langConfig.exp2Date, langConfig.exp3Date, langConfig.exp4Date, langConfig.exp5Date];
+        const tasks = [langConfig.exp1Tasks, langConfig.exp2Tasks, langConfig.exp3Tasks, langConfig.exp4Tasks, langConfig.exp5Tasks];
 
         timelineItems.forEach((item, index) => {
+            const dateEl = item.querySelector('.timeline-date');
             const company = item.querySelector('.timeline-content h3');
             const role = item.querySelector('.timeline-role');
             const taskList = item.querySelectorAll('.timeline-content li');
 
+            if (dateEl && dates[index]) {
+                dateEl.textContent = dates[index];
+            }
             if (company && companies[index]) {
                 company.textContent = companies[index];
             }
@@ -413,17 +462,22 @@ class ThemeLanguageManager {
 
         // Update projects section
         const projectCards = document.querySelectorAll('.project-card');
-        const projTitles = [langConfig.proj1Title, langConfig.proj2Title, langConfig.proj3Title, langConfig.proj4Title];
-        const projDescs = [langConfig.proj1Desc, langConfig.proj2Desc, langConfig.proj3Desc, langConfig.proj4Desc];
-        const projTags = [langConfig.proj1Tags, langConfig.proj2Tags, langConfig.proj3Tags, langConfig.proj4Tags];
+        const projTitles = [langConfig.proj1Title, langConfig.proj2Title, langConfig.proj3Title, langConfig.proj4Title, langConfig.proj5Title];
+        const projDescs = [langConfig.proj1Desc, langConfig.proj2Desc, langConfig.proj3Desc, langConfig.proj4Desc, langConfig.proj5Desc];
+        const projTags = [langConfig.proj1Tags, langConfig.proj2Tags, langConfig.proj3Tags, langConfig.proj4Tags, langConfig.proj5Tags];
+        const projDates = [langConfig.proj1Date, langConfig.proj2Date, langConfig.proj3Date, langConfig.proj4Date, langConfig.proj5Date];
 
         projectCards.forEach((card, index) => {
             const title = card.querySelector('.project-header h3');
+            const dateEl = card.querySelector('.project-date');
             const desc = card.querySelector('p');
             const tags = card.querySelectorAll('.project-tags span');
 
             if (title && projTitles[index]) {
                 title.textContent = projTitles[index];
+            }
+            if (dateEl && projDates[index]) {
+                dateEl.textContent = projDates[index];
             }
             if (desc && projDescs[index]) {
                 desc.textContent = projDescs[index];
@@ -462,7 +516,7 @@ class ThemeLanguageManager {
 
         // Update footer
         const footerText = document.querySelector('.footer p');
-        footerText.innerHTML = `© 2025 Will. ${langConfig.footerText} <span class="text-gradient">Claude AI</span> ${langConfig.footerText1}`;
+        footerText.innerHTML = `© 2026 Will. ${langConfig.footerText} <span class="text-gradient">Claude AI</span> ${langConfig.footerText1}`;
 
         // Update document title
         document.title = langConfig.pageTitle;
