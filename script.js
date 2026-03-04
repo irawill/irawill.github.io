@@ -59,6 +59,8 @@ const languages = {
         aboutVizDesc: '封装甘特图与大数据表格组件，基于ECharts/D3实现复杂图表',
         aboutFullstack: '全栈能力',
         aboutFullstackDesc: '既有C端播放器/互动业务经验，也有B端工程化与平台化沉淀',
+        aboutAI: 'AI辅助工程能力',
+        aboutAIDesc: '主导AI生码方向探索，图生代码技术路线落地，Prompt优化与Vibe Coding实践',
 
         // Skills section
         skillsTitle: '技术栈',
@@ -73,7 +75,7 @@ const languages = {
         exp1Role: '营销活动前端负责人',
         exp1Date: '2025.09 - 至今',
         exp1Tasks: [
-            'Growth UI 组件库从0到1搭建（四层架构、CSS Module + Headless UI、dumi文档、Jest测试、CI/CD）',
+            'Growth UI 组件库从0到1搭建（四层架构、CSS Module + Design Token、dumi文档、Jest测试、CI/CD）',
             '主导7+营销活动项目交付（WCTC赛事、万圣节活动、AI Trading竞赛等）',
             'AI代码生成探索（图生代码、PRD模版化、Prompt优化、Vibe Coding）',
             '工程基建（Builder水合治理、WebPro监控、Header动态配置）',
@@ -117,22 +119,26 @@ const languages = {
         proj1Date: '2026.01 - 至今',
         proj1Desc: '主导活动侧AI生码方向探索，明确图生代码技术路线，PRD输入模版化，工程基座搭建，Prompt优化与Vibe Coding实践，提升活动页开发效率。',
         proj1Tags: ['AI生码', 'Prompt Engineering', 'Vibe Coding'],
-        proj2Title: '沉浸式文档阅读解决方案',
-        proj2Date: '2022.07 - 2023.12',
-        proj2Desc: '在中后台不切换标签页即可查阅/操作文档，新人上手更顺畅。以SDK形式封装，支持Markdown/HTML/语雀，5分钟快速集成，在多个业务线推广应用。',
-        proj2Tags: ['SDK设计', 'Markdown', '产品化'],
-        proj3Title: '活动H5平台',
-        proj3Date: '2020.07 - 2021.03',
-        proj3Desc: '统一schema与数据管理，编辑器与活动页双向联动。形成可复用的活动组件生态，支撑多品牌活动上线。',
-        proj3Tags: ['低代码', '组件化', '平台化'],
-        proj4Title: '惊喜盒子（活动动效体系）',
-        proj4Date: '2020.03 - 2020.06',
-        proj4Desc: '基于Lottie标准化动效素材与触发逻辑，使用WebGL实现半透明浮层等彩蛋效果，玩法复用与曝光更稳定。',
-        proj4Tags: ['Lottie', 'WebGL', '动效'],
-        proj5Title: '爱奇艺直播',
-        proj5Date: '2018.07 - 2019.06',
-        proj5Desc: '播放器播控体验优化、视频流输出处理、日志埋点/投递、聊天室等模块完善，适配多端。',
-        proj5Tags: ['播放器', '直播', '多端适配'],
+        proj2Title: 'Growth UI 组件库',
+        proj2Date: '2025.09 - 至今',
+        proj2Desc: '从0到1搭建营销活动组件库，四层架构设计（基础组件/业务组件/模板/页面），采用 CSS Module + Design Token 方案，配套 dumi 文档站、Jest 单测覆盖、CI/CD 自动化发布。',
+        proj2Tags: ['组件库', 'Design Token', 'dumi'],
+        proj3Title: '沉浸式文档阅读解决方案',
+        proj3Date: '2022.07 - 2023.12',
+        proj3Desc: '在中后台不切换标签页即可查阅/操作文档，新人上手更顺畅。以SDK形式封装，支持Markdown/HTML/语雀，5分钟快速集成，在多个业务线推广应用。',
+        proj3Tags: ['SDK设计', 'Markdown', '产品化'],
+        proj4Title: '活动H5平台',
+        proj4Date: '2020.07 - 2021.03',
+        proj4Desc: '统一schema与数据管理，编辑器与活动页双向联动。形成可复用的活动组件生态，支撑多品牌活动上线。',
+        proj4Tags: ['低代码', '组件化', '平台化'],
+        proj5Title: '惊喜盒子（活动动效体系）',
+        proj5Date: '2020.03 - 2020.06',
+        proj5Desc: '基于Lottie标准化动效素材与触发逻辑，使用WebGL实现半透明浮层等彩蛋效果，玩法复用与曝光更稳定。',
+        proj5Tags: ['Lottie', 'WebGL', '动效'],
+        proj6Title: '爱奇艺直播',
+        proj6Date: '2018.07 - 2019.06',
+        proj6Desc: '播放器播控体验优化、视频流输出处理、日志埋点/投递、聊天室等模块完善，适配多端。',
+        proj6Tags: ['播放器', '直播', '多端适配'],
 
         // Contact section
         contactTitle: '联系我',
@@ -174,6 +180,8 @@ const languages = {
         aboutVizDesc: 'Encapsulate Gantt charts and big data table components, implement complex charts based on ECharts/D3',
         aboutFullstack: 'Full-stack',
         aboutFullstackDesc: 'Experience in both C-end player/interactive business and B-end engineering platform development',
+        aboutAI: 'AI-Assisted Engineering',
+        aboutAIDesc: 'Led AI code generation exploration, image-to-code pipeline implementation, Prompt optimization and Vibe Coding practices',
 
         // Skills section
         skillsTitle: 'Tech Stack',
@@ -188,7 +196,7 @@ const languages = {
         exp1Role: 'Marketing Activity Frontend Lead',
         exp1Date: '2025.09 - Present',
         exp1Tasks: [
-            'Built Growth UI component library from scratch (4-layer architecture, CSS Module + Headless UI, dumi docs, Jest testing, CI/CD)',
+            'Built Growth UI component library from scratch (4-layer architecture, CSS Module + Design Token, dumi docs, Jest testing, CI/CD)',
             'Led 7+ marketing campaign project deliveries (WCTC tournament, Halloween event, AI Trading competition, etc.)',
             'AI code generation exploration (image-to-code, PRD templatization, Prompt optimization, Vibe Coding)',
             'Engineering infrastructure (Builder hydration governance, WebPro monitoring, Header dynamic configuration)',
@@ -232,22 +240,26 @@ const languages = {
         proj1Date: '2026.01 - Present',
         proj1Desc: 'Led AI code generation exploration for marketing campaigns, established image-to-code technical roadmap, PRD input templatization, engineering foundation setup, Prompt optimization and Vibe Coding practices to improve campaign page development efficiency.',
         proj1Tags: ['AI Code Gen', 'Prompt Engineering', 'Vibe Coding'],
-        proj2Title: 'Immersive Document Reading Solution',
-        proj2Date: '2022.07 - 2023.12',
-        proj2Desc: 'Enable document viewing/editing within admin platforms without tab switching, improving onboarding experience. Packaged as SDK supporting Markdown/HTML/Yuque with 5-minute integration, promoted across multiple business lines.',
-        proj2Tags: ['SDK Design', 'Markdown', 'Product'],
-        proj3Title: 'H5 Activity Platform',
-        proj3Date: '2020.07 - 2021.03',
-        proj3Desc: 'Unified schema and data management with bidirectional editor-page synchronization. Built reusable activity component ecosystem supporting multi-brand campaign launches.',
-        proj3Tags: ['Low-code', 'Components', 'Platform'],
-        proj4Title: 'Surprise Box (Activity Animation System)',
-        proj4Date: '2020.03 - 2020.06',
-        proj4Desc: 'Standardized animation assets and trigger logic based on Lottie, implemented semi-transparent overlay effects with WebGL for stable gameplay reuse and exposure.',
-        proj4Tags: ['Lottie', 'WebGL', 'Animation'],
-        proj5Title: 'iQiyi Live Streaming',
-        proj5Date: '2018.07 - 2019.06',
-        proj5Desc: 'Player control experience optimization, video stream output processing, logging/delivery, chat room enhancements, multi-platform adaptation.',
-        proj5Tags: ['Player', 'Live Streaming', 'Multi-platform'],
+        proj2Title: 'Growth UI Component Library',
+        proj2Date: '2025.09 - Present',
+        proj2Desc: 'Built marketing campaign component library from scratch with 4-layer architecture (base/business components/templates/pages), CSS Module + Design Token approach, dumi documentation site, Jest unit test coverage, and CI/CD automated publishing.',
+        proj2Tags: ['Component Library', 'Design Token', 'dumi'],
+        proj3Title: 'Immersive Document Reading Solution',
+        proj3Date: '2022.07 - 2023.12',
+        proj3Desc: 'Enable document viewing/editing within admin platforms without tab switching, improving onboarding experience. Packaged as SDK supporting Markdown/HTML/Yuque with 5-minute integration, promoted across multiple business lines.',
+        proj3Tags: ['SDK Design', 'Markdown', 'Product'],
+        proj4Title: 'H5 Activity Platform',
+        proj4Date: '2020.07 - 2021.03',
+        proj4Desc: 'Unified schema and data management with bidirectional editor-page synchronization. Built reusable activity component ecosystem supporting multi-brand campaign launches.',
+        proj4Tags: ['Low-code', 'Components', 'Platform'],
+        proj5Title: 'Surprise Box (Activity Animation System)',
+        proj5Date: '2020.03 - 2020.06',
+        proj5Desc: 'Standardized animation assets and trigger logic based on Lottie, implemented semi-transparent overlay effects with WebGL for stable gameplay reuse and exposure.',
+        proj5Tags: ['Lottie', 'WebGL', 'Animation'],
+        proj6Title: 'iQiyi Live Streaming',
+        proj6Date: '2018.07 - 2019.06',
+        proj6Desc: 'Player control experience optimization, video stream output processing, logging/delivery, chat room enhancements, multi-platform adaptation.',
+        proj6Tags: ['Player', 'Live Streaming', 'Multi-platform'],
 
         // Contact section
         contactTitle: 'Contact',
@@ -405,12 +417,14 @@ class ThemeLanguageManager {
         aboutCards[1].textContent = langConfig.aboutComponents;
         aboutCards[2].textContent = langConfig.aboutViz;
         aboutCards[3].textContent = langConfig.aboutFullstack;
+        aboutCards[4].textContent = langConfig.aboutAI;
 
         const aboutDescs = document.querySelectorAll('.about-card p');
         aboutDescs[0].textContent = langConfig.aboutArchDesc;
         aboutDescs[1].textContent = langConfig.aboutComponentsDesc;
         aboutDescs[2].textContent = langConfig.aboutVizDesc;
         aboutDescs[3].textContent = langConfig.aboutFullstackDesc;
+        aboutDescs[4].textContent = langConfig.aboutAIDesc;
 
         // Update skills categories
         const skillCategories = document.querySelectorAll('.skill-category h3');
@@ -462,10 +476,10 @@ class ThemeLanguageManager {
 
         // Update projects section
         const projectCards = document.querySelectorAll('.project-card');
-        const projTitles = [langConfig.proj1Title, langConfig.proj2Title, langConfig.proj3Title, langConfig.proj4Title, langConfig.proj5Title];
-        const projDescs = [langConfig.proj1Desc, langConfig.proj2Desc, langConfig.proj3Desc, langConfig.proj4Desc, langConfig.proj5Desc];
-        const projTags = [langConfig.proj1Tags, langConfig.proj2Tags, langConfig.proj3Tags, langConfig.proj4Tags, langConfig.proj5Tags];
-        const projDates = [langConfig.proj1Date, langConfig.proj2Date, langConfig.proj3Date, langConfig.proj4Date, langConfig.proj5Date];
+        const projTitles = [langConfig.proj1Title, langConfig.proj2Title, langConfig.proj3Title, langConfig.proj4Title, langConfig.proj5Title, langConfig.proj6Title];
+        const projDescs = [langConfig.proj1Desc, langConfig.proj2Desc, langConfig.proj3Desc, langConfig.proj4Desc, langConfig.proj5Desc, langConfig.proj6Desc];
+        const projTags = [langConfig.proj1Tags, langConfig.proj2Tags, langConfig.proj3Tags, langConfig.proj4Tags, langConfig.proj5Tags, langConfig.proj6Tags];
+        const projDates = [langConfig.proj1Date, langConfig.proj2Date, langConfig.proj3Date, langConfig.proj4Date, langConfig.proj5Date, langConfig.proj6Date];
 
         projectCards.forEach((card, index) => {
             const title = card.querySelector('.project-header h3');
