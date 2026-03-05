@@ -459,11 +459,13 @@ section {
 }
 
 .timeline-item:nth-child(odd)::before {
-    left: -2.5rem;
+    left: -2rem;
+    transform: translateX(-50%);
 }
 
 .timeline-item:nth-child(even)::before {
-    right: -2.5rem;
+    right: -2rem;
+    transform: translateX(50%);
 }
 
 .timeline-date {
@@ -714,23 +716,25 @@ section {
     }
     
     .timeline::before {
-        left: 30px;
+        left: 20px;
     }
     
     .timeline-item {
-        width: calc(100% - 60px);
-        margin-left: 60px;
+        width: calc(100% - 34px);
+        margin-left: 34px;
+        padding: 1.3rem 0 1.3rem 0.6rem;
         text-align: left;
     }
 
     .timeline-item:nth-child(odd),
     .timeline-item:nth-child(even) {
-        margin-left: 60px;
+        margin-left: 34px;
         text-align: left;
     }
     
     .timeline-content {
         text-align: left;
+        padding: 1.1rem 1rem;
     }
     
     .timeline-content h3,
@@ -741,13 +745,16 @@ section {
     }
     
     .timeline-item::before {
-        left: -45px;
+        left: -14px;
+        right: auto;
+        transform: translateX(-50%);
     }
 
     .timeline-item:nth-child(odd)::before,
     .timeline-item:nth-child(even)::before {
-        left: -45px;
+        left: -14px;
         right: auto;
+        transform: translateX(-50%);
     }
     
     .about-content {
