@@ -54,13 +54,13 @@ const languages = {
         aboutArch: '架构设计',
         aboutArchDesc: '负责多项B端平台的前端架构与落地，推动微前端化与模块化拆分',
         aboutComponents: '组件沉淀',
-        aboutComponentsDesc: '抽象中后台通用组件，设计沉浸式文档阅读SDK，5分钟快速集成',
+        aboutComponentsDesc: '抽象封装业务通用组件，设计沉浸式文档阅读SDK，5分钟快速集成',
         aboutViz: '数据可视化',
         aboutVizDesc: '封装甘特图与大数据表格组件，基于ECharts/D3实现复杂图表',
         aboutFullstack: '全栈能力',
         aboutFullstackDesc: '既有C端播放器/互动业务经验，也有B端工程化与平台化沉淀',
         aboutAI: 'AI辅助工程能力',
-        aboutAIDesc: '主导AI生码方向探索，图生代码技术路线落地，Prompt优化与Vibe Coding实践',
+        aboutAIDesc: '主导AI生码方向探索，负责文档驱动生码方案落地，Prompt优化与Vibe Coding实践',
 
         // Skills section
         skillsTitle: '技术栈',
@@ -175,13 +175,13 @@ const languages = {
         aboutArch: 'Architecture',
         aboutArchDesc: 'Lead frontend architecture for multiple B2B platforms, promoting micro-frontend and modular splitting',
         aboutComponents: 'Components',
-        aboutComponentsDesc: 'Abstract common components for admin platforms, design immersive document reading SDK with 5-minute integration',
+        aboutComponentsDesc: 'Build reusable business components, design an immersive document reading SDK with 5-minute integration',
         aboutViz: 'Data Visualization',
         aboutVizDesc: 'Encapsulate Gantt charts and big data table components, implement complex charts based on ECharts/D3',
         aboutFullstack: 'Full-stack',
         aboutFullstackDesc: 'Experience in both C-end player/interactive business and B-end engineering platform development',
         aboutAI: 'AI-Assisted Engineering',
-        aboutAIDesc: 'Led AI code generation exploration, image-to-code pipeline implementation, Prompt optimization and Vibe Coding practices',
+        aboutAIDesc: 'Led AI code generation exploration, delivered a document-driven code generation solution, with Prompt optimization and Vibe Coding practices',
 
         // Skills section
         skillsTitle: 'Tech Stack',
@@ -276,6 +276,43 @@ const languages = {
         pageTitleBack: '🎉 Welcome back! Continue exploring～',
     }
 };
+
+let typewriterTimer = null;
+let typewriterRunId = 0;
+
+function startTypewriter(text, { startDelay = 500, charDelay = 100 } = {}) {
+    const typingElement = document.querySelector('.typing');
+    if (!typingElement) return;
+
+    typewriterRunId += 1;
+    const currentRunId = typewriterRunId;
+
+    if (typewriterTimer) {
+        clearTimeout(typewriterTimer);
+        typewriterTimer = null;
+    }
+
+    // 重置 CSS 动画，保持原有打字机视觉效果
+    typingElement.classList.remove('typing');
+    void typingElement.offsetWidth;
+    typingElement.classList.add('typing');
+    typingElement.textContent = '';
+
+    let index = 0;
+    const chars = Array.from(text || '');
+    const typeNext = () => {
+        if (currentRunId !== typewriterRunId) return;
+        if (index < chars.length) {
+            typingElement.textContent += chars[index];
+            index += 1;
+            typewriterTimer = setTimeout(typeNext, charDelay);
+        } else {
+            typewriterTimer = null;
+        }
+    };
+
+    typewriterTimer = setTimeout(typeNext, startDelay);
+}
 
 // 主题和语言管理
 class ThemeLanguageManager {
@@ -372,7 +409,7 @@ class ThemeLanguageManager {
 
         // Update hero section
         document.querySelector('.text-gradient').textContent = langConfig.heroTitle;
-        document.querySelector('.hero-subtitle').textContent = langConfig.heroSubtitle;
+        startTypewriter(langConfig.heroSubtitle);
         document.querySelector('.hero-description').textContent = langConfig.heroDescription;
         document.querySelectorAll('.btn')[0].textContent = langConfig.heroContact;
         document.querySelectorAll('.btn')[1].textContent = langConfig.heroProjects;
@@ -597,24 +634,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-
-    // 打字机效果优化
-    const typingElement = document.querySelector('.typing');
-    if (typingElement) {
-        const text = typingElement.textContent;
-        typingElement.textContent = '';
-        let index = 0;
-
-        const typeWriter = () => {
-            if (index < text.length) {
-                typingElement.textContent += text.charAt(index);
-                index++;
-                setTimeout(typeWriter, 100);
-            }
-        };
-
-        setTimeout(typeWriter, 500);
-    }
 
     // 创建粒子背景
     const createParticles = () => {
