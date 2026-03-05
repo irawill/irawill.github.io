@@ -8,8 +8,41 @@
     <link rel="icon" type="image/svg+xml" href="favicon-simple.svg">
     <link rel="alternate icon" href="favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="favicon-simple.svg">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="fonts/inter.css">
+    <script>
+        (function applySavedTheme() {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark' || savedTheme === 'light') {
+                    document.documentElement.setAttribute('data-theme', savedTheme);
+                }
+            } catch (error) {
+                // ignore storage access errors
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="styles.min.css">
+    <script>
+        window.addEventListener('load', () => {
+            const loadInterFont = () => {
+                if (document.querySelector('link[data-font-loader=\"inter\"]')) {
+                    return;
+                }
+                const link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = 'fonts/inter.css';
+                link.setAttribute('data-font-loader', 'inter');
+                document.head.appendChild(link);
+            };
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(loadInterFont, { timeout: 1200 });
+                return;
+            }
+
+            setTimeout(loadInterFont, 600);
+        }, { once: true });
+    </script>
+    <noscript><link rel="stylesheet" href="fonts/inter.css"></noscript>
 </head>
 <body>
     <!-- 导航栏 -->
@@ -49,7 +82,7 @@
             <h1 class="hero-title">
                 <span class="text-gradient">威尔</span>
             </h1>
-            <h2 class="hero-subtitle typing">前端开发工程师</h2>
+            <h2 class="hero-subtitle">前端开发工程师</h2>
             <p class="hero-description">9年+前端经验 | 技术与业务并重</p>
             <div class="hero-buttons">
                 <a href="#contact" class="btn btn-primary">联系我</a>
@@ -338,10 +371,17 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>© 2026 Will. 此站点由 <span class="text-gradient">Claude AI</span> 生成</p>
+            <p>© 2026 Will. 此站点由 <span class="text-gradient">Claude &amp; Codex</span> 生成</p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            const script = document.createElement('script');
+            script.src = 'script.min.js';
+            script.defer = true;
+            document.body.appendChild(script);
+        }, { once: true });
+    </script>
 </body>
 </html>

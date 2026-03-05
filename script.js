@@ -281,7 +281,7 @@ let typewriterTimer = null;
 let typewriterRunId = 0;
 
 function startTypewriter(text, { startDelay = 500, charDelay = 100 } = {}) {
-    const typingElement = document.querySelector('.typing');
+    const typingElement = document.querySelector('.hero-subtitle');
     if (!typingElement) return;
 
     typewriterRunId += 1;
@@ -293,9 +293,9 @@ function startTypewriter(text, { startDelay = 500, charDelay = 100 } = {}) {
     }
 
     // 重置 CSS 动画，保持原有打字机视觉效果
-    typingElement.classList.remove('typing');
+    typingElement.classList.remove('typing-active');
     void typingElement.offsetWidth;
-    typingElement.classList.add('typing');
+    typingElement.classList.add('typing-active');
     typingElement.textContent = '';
 
     let index = 0;
@@ -319,6 +319,7 @@ class ThemeLanguageManager {
     constructor() {
         this.currentTheme = this.getSavedTheme() || this.getSystemTheme();
         this.currentLanguage = this.getSavedLanguage() || this.getSystemLanguage();
+        this.pendingContentUpdateId = 0;
         this.init();
     }
 
@@ -349,7 +350,11 @@ class ThemeLanguageManager {
 
     init() {
         this.setTheme(this.currentTheme);
-        this.setLanguage(this.currentLanguage);
+        // 首屏阶段只做关键区块同步，非关键区块延迟到空闲期，减少首次长任务。
+        this.setLanguage(this.currentLanguage, {
+            animateTypewriter: false,
+            deferNonCritical: true
+        });
         this.bindEvents();
         this.updateToggleButtons();
     }
@@ -373,7 +378,10 @@ class ThemeLanguageManager {
 
     toggleLanguage() {
         this.currentLanguage = this.currentLanguage === 'zh' ? 'en' : 'zh';
-        this.setLanguage(this.currentLanguage);
+        this.setLanguage(this.currentLanguage, {
+            animateTypewriter: true,
+            deferNonCritical: false
+        });
         this.saveLanguage(this.currentLanguage);
         this.updateToggleButtons();
     }
@@ -382,9 +390,9 @@ class ThemeLanguageManager {
         document.documentElement.setAttribute('data-theme', theme);
     }
 
-    setLanguage(language) {
+    setLanguage(language, { animateTypewriter = true, deferNonCritical = false } = {}) {
         document.querySelector('html').setAttribute('lang', language === 'zh' ? 'zh-CN' : 'en');
-        this.updateContent(language);
+        this.updateContent(language, { animateTypewriter, deferNonCritical });
     }
 
     updateToggleButtons() {
@@ -395,155 +403,211 @@ class ThemeLanguageManager {
         langBtn.textContent = this.currentLanguage === 'zh' ? 'EN' : '中';
     }
 
-    updateContent(language) {
+    updateContent(language, { animateTypewriter = true, deferNonCritical = false } = {}) {
         const langConfig = languages[language];
+        const updateId = ++this.pendingContentUpdateId;
 
         // Update navigation
         const navLinks = document.querySelectorAll('.nav-link');
-        navLinks[0].textContent = langConfig.navHome;
-        navLinks[1].textContent = langConfig.navAbout;
-        navLinks[2].textContent = langConfig.navSkills;
-        navLinks[3].textContent = langConfig.navExperience;
-        navLinks[4].textContent = langConfig.navProjects;
-        navLinks[5].textContent = langConfig.navContact;
+        if (navLinks.length >= 6) {
+            navLinks[0].textContent = langConfig.navHome;
+            navLinks[1].textContent = langConfig.navAbout;
+            navLinks[2].textContent = langConfig.navSkills;
+            navLinks[3].textContent = langConfig.navExperience;
+            navLinks[4].textContent = langConfig.navProjects;
+            navLinks[5].textContent = langConfig.navContact;
+        }
 
         // Update hero section
-        document.querySelector('.text-gradient').textContent = langConfig.heroTitle;
-        startTypewriter(langConfig.heroSubtitle);
-        document.querySelector('.hero-description').textContent = langConfig.heroDescription;
-        document.querySelectorAll('.btn')[0].textContent = langConfig.heroContact;
-        document.querySelectorAll('.btn')[1].textContent = langConfig.heroProjects;
+        const heroTitle = document.querySelector('.text-gradient');
+        const heroSubtitle = document.querySelector('.hero-subtitle');
+        const heroDescription = document.querySelector('.hero-description');
+        const heroButtons = document.querySelectorAll('.btn');
 
-        // Update section titles
-        document.querySelectorAll('.section-title')[0].textContent = langConfig.aboutTitle;
-        document.querySelectorAll('.section-title')[1].textContent = langConfig.skillsTitle;
-        document.querySelectorAll('.section-title')[2].textContent = langConfig.experienceTitle;
-        document.querySelectorAll('.section-title')[3].textContent = langConfig.projectsTitle;
-        document.querySelectorAll('.section-title')[4].textContent = langConfig.contactTitle;
-
-        // Update about cards
-        const aboutCards = document.querySelectorAll('.about-card h3');
-        aboutCards[0].textContent = langConfig.aboutArch;
-        aboutCards[1].textContent = langConfig.aboutComponents;
-        aboutCards[2].textContent = langConfig.aboutViz;
-        aboutCards[3].textContent = langConfig.aboutFullstack;
-        aboutCards[4].textContent = langConfig.aboutAI;
-
-        const aboutDescs = document.querySelectorAll('.about-card p');
-        aboutDescs[0].textContent = langConfig.aboutArchDesc;
-        aboutDescs[1].textContent = langConfig.aboutComponentsDesc;
-        aboutDescs[2].textContent = langConfig.aboutVizDesc;
-        aboutDescs[3].textContent = langConfig.aboutFullstackDesc;
-        aboutDescs[4].textContent = langConfig.aboutAIDesc;
-
-        // Update skills categories
-        const skillCategories = document.querySelectorAll('.skill-category h3');
-        skillCategories[0].textContent = langConfig.skillsFrontend;
-        skillCategories[1].textContent = langConfig.skillsViz;
-        skillCategories[2].textContent = langConfig.skillsEngineering;
-        skillCategories[3].textContent = langConfig.skillsFullstack;
-
-        // Update skill tags (specifically for 微前端)
-        const skillTags = document.querySelectorAll('.skill-tag');
-        skillTags.forEach(tag => {
-            if (tag.textContent === '微前端' && language === 'en') {
-                tag.textContent = 'Micro Frontend';
-            } else if (tag.textContent === 'Micro Frontend' && language === 'zh') {
-                tag.textContent = '微前端';
+        if (heroTitle) {
+            heroTitle.textContent = langConfig.heroTitle;
+        }
+        if (animateTypewriter) {
+            startTypewriter(langConfig.heroSubtitle);
+        } else if (heroSubtitle) {
+            if (typewriterTimer) {
+                clearTimeout(typewriterTimer);
+                typewriterTimer = null;
             }
-        });
-
-        // Update experience section
-        const timelineItems = document.querySelectorAll('.timeline-item');
-        const companies = [langConfig.exp1Company, langConfig.exp2Company, langConfig.exp3Company, langConfig.exp4Company, langConfig.exp5Company];
-        const roles = [langConfig.exp1Role, langConfig.exp2Role, langConfig.exp3Role, langConfig.exp4Role, langConfig.exp5Role];
-        const dates = [langConfig.exp1Date, langConfig.exp2Date, langConfig.exp3Date, langConfig.exp4Date, langConfig.exp5Date];
-        const tasks = [langConfig.exp1Tasks, langConfig.exp2Tasks, langConfig.exp3Tasks, langConfig.exp4Tasks, langConfig.exp5Tasks];
-
-        timelineItems.forEach((item, index) => {
-            const dateEl = item.querySelector('.timeline-date');
-            const company = item.querySelector('.timeline-content h3');
-            const role = item.querySelector('.timeline-role');
-            const taskList = item.querySelectorAll('.timeline-content li');
-
-            if (dateEl && dates[index]) {
-                dateEl.textContent = dates[index];
-            }
-            if (company && companies[index]) {
-                company.textContent = companies[index];
-            }
-            if (role && roles[index]) {
-                role.textContent = roles[index];
-            }
-            if (taskList && tasks[index]) {
-                taskList.forEach((task, taskIndex) => {
-                    if (tasks[index][taskIndex]) {
-                        task.textContent = tasks[index][taskIndex];
-                    }
-                });
-            }
-        });
-
-        // Update projects section
-        const projectCards = document.querySelectorAll('.project-card');
-        const projTitles = [langConfig.proj1Title, langConfig.proj2Title, langConfig.proj3Title, langConfig.proj4Title, langConfig.proj5Title, langConfig.proj6Title];
-        const projDescs = [langConfig.proj1Desc, langConfig.proj2Desc, langConfig.proj3Desc, langConfig.proj4Desc, langConfig.proj5Desc, langConfig.proj6Desc];
-        const projTags = [langConfig.proj1Tags, langConfig.proj2Tags, langConfig.proj3Tags, langConfig.proj4Tags, langConfig.proj5Tags, langConfig.proj6Tags];
-        const projDates = [langConfig.proj1Date, langConfig.proj2Date, langConfig.proj3Date, langConfig.proj4Date, langConfig.proj5Date, langConfig.proj6Date];
-
-        projectCards.forEach((card, index) => {
-            const title = card.querySelector('.project-header h3');
-            const dateEl = card.querySelector('.project-date');
-            const desc = card.querySelector('p');
-            const tags = card.querySelectorAll('.project-tags span');
-
-            if (title && projTitles[index]) {
-                title.textContent = projTitles[index];
-            }
-            if (dateEl && projDates[index]) {
-                dateEl.textContent = projDates[index];
-            }
-            if (desc && projDescs[index]) {
-                desc.textContent = projDescs[index];
-            }
-            if (tags && projTags[index]) {
-                tags.forEach((tag, tagIndex) => {
-                    if (projTags[index][tagIndex]) {
-                        tag.textContent = projTags[index][tagIndex];
-                    }
-                });
-            }
-        });
-
-        // Update contact location and website
-        const contactItems = document.querySelectorAll('.contact-item');
-        contactItems.forEach(item => {
-            const span = item.querySelector('span:not(.contact-icon)');
-            const link = item.querySelector('a');
-            
-            if (span) {
-                if (span.textContent === '上海' && language === 'en') {
-                    span.textContent = langConfig.contactLocation;
-                } else if (span.textContent === 'Shanghai' && language === 'zh') {
-                    span.textContent = langConfig.contactLocation;
-                }
-            }
-            
-            if (link && link.href === 'https://irawill.space/') {
-                if (link.textContent === '个人站点' && language === 'en') {
-                    link.textContent = langConfig.contactWebsite;
-                } else if (link.textContent === 'Personal Website' && language === 'zh') {
-                    link.textContent = langConfig.contactWebsite;
-                }
-            }
-        });
-
-        // Update footer
-        const footerText = document.querySelector('.footer p');
-        footerText.innerHTML = `© 2026 Will. ${langConfig.footerText} <span class="text-gradient">Claude AI</span> ${langConfig.footerText1}`;
+            typewriterRunId += 1;
+            heroSubtitle.classList.remove('typing-active');
+            heroSubtitle.textContent = langConfig.heroSubtitle;
+        }
+        if (heroDescription) {
+            heroDescription.textContent = langConfig.heroDescription;
+        }
+        if (heroButtons.length >= 2) {
+            heroButtons[0].textContent = langConfig.heroContact;
+            heroButtons[1].textContent = langConfig.heroProjects;
+        }
 
         // Update document title
         document.title = langConfig.pageTitle;
+
+        const updateNonCritical = () => {
+            if (updateId !== this.pendingContentUpdateId) return;
+
+            // Update section titles
+            const sectionTitles = document.querySelectorAll('.section-title');
+            if (sectionTitles.length >= 5) {
+                sectionTitles[0].textContent = langConfig.aboutTitle;
+                sectionTitles[1].textContent = langConfig.skillsTitle;
+                sectionTitles[2].textContent = langConfig.experienceTitle;
+                sectionTitles[3].textContent = langConfig.projectsTitle;
+                sectionTitles[4].textContent = langConfig.contactTitle;
+            }
+
+            // Update about cards
+            const aboutCards = document.querySelectorAll('.about-card h3');
+            if (aboutCards.length >= 5) {
+                aboutCards[0].textContent = langConfig.aboutArch;
+                aboutCards[1].textContent = langConfig.aboutComponents;
+                aboutCards[2].textContent = langConfig.aboutViz;
+                aboutCards[3].textContent = langConfig.aboutFullstack;
+                aboutCards[4].textContent = langConfig.aboutAI;
+            }
+
+            const aboutDescs = document.querySelectorAll('.about-card p');
+            if (aboutDescs.length >= 5) {
+                aboutDescs[0].textContent = langConfig.aboutArchDesc;
+                aboutDescs[1].textContent = langConfig.aboutComponentsDesc;
+                aboutDescs[2].textContent = langConfig.aboutVizDesc;
+                aboutDescs[3].textContent = langConfig.aboutFullstackDesc;
+                aboutDescs[4].textContent = langConfig.aboutAIDesc;
+            }
+
+            // Update skills categories
+            const skillCategories = document.querySelectorAll('.skill-category h3');
+            if (skillCategories.length >= 4) {
+                skillCategories[0].textContent = langConfig.skillsFrontend;
+                skillCategories[1].textContent = langConfig.skillsViz;
+                skillCategories[2].textContent = langConfig.skillsEngineering;
+                skillCategories[3].textContent = langConfig.skillsFullstack;
+            }
+
+            // Update skill tags (specifically for 微前端)
+            const skillTags = document.querySelectorAll('.skill-tag');
+            skillTags.forEach(tag => {
+                if (tag.textContent === '微前端' && language === 'en') {
+                    tag.textContent = 'Micro Frontend';
+                } else if (tag.textContent === 'Micro Frontend' && language === 'zh') {
+                    tag.textContent = '微前端';
+                }
+            });
+
+            // Update experience section
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            const companies = [langConfig.exp1Company, langConfig.exp2Company, langConfig.exp3Company, langConfig.exp4Company, langConfig.exp5Company];
+            const roles = [langConfig.exp1Role, langConfig.exp2Role, langConfig.exp3Role, langConfig.exp4Role, langConfig.exp5Role];
+            const dates = [langConfig.exp1Date, langConfig.exp2Date, langConfig.exp3Date, langConfig.exp4Date, langConfig.exp5Date];
+            const tasks = [langConfig.exp1Tasks, langConfig.exp2Tasks, langConfig.exp3Tasks, langConfig.exp4Tasks, langConfig.exp5Tasks];
+
+            timelineItems.forEach((item, index) => {
+                const dateEl = item.querySelector('.timeline-date');
+                const company = item.querySelector('.timeline-content h3');
+                const role = item.querySelector('.timeline-role');
+                const taskList = item.querySelectorAll('.timeline-content li');
+
+                if (dateEl && dates[index]) {
+                    dateEl.textContent = dates[index];
+                }
+                if (company && companies[index]) {
+                    company.textContent = companies[index];
+                }
+                if (role && roles[index]) {
+                    role.textContent = roles[index];
+                }
+                if (taskList && tasks[index]) {
+                    taskList.forEach((task, taskIndex) => {
+                        if (tasks[index][taskIndex]) {
+                            task.textContent = tasks[index][taskIndex];
+                        }
+                    });
+                }
+            });
+
+            // Update projects section
+            const projectCards = document.querySelectorAll('.project-card');
+            const projTitles = [langConfig.proj1Title, langConfig.proj2Title, langConfig.proj3Title, langConfig.proj4Title, langConfig.proj5Title, langConfig.proj6Title];
+            const projDescs = [langConfig.proj1Desc, langConfig.proj2Desc, langConfig.proj3Desc, langConfig.proj4Desc, langConfig.proj5Desc, langConfig.proj6Desc];
+            const projTags = [langConfig.proj1Tags, langConfig.proj2Tags, langConfig.proj3Tags, langConfig.proj4Tags, langConfig.proj5Tags, langConfig.proj6Tags];
+            const projDates = [langConfig.proj1Date, langConfig.proj2Date, langConfig.proj3Date, langConfig.proj4Date, langConfig.proj5Date, langConfig.proj6Date];
+
+            projectCards.forEach((card, index) => {
+                const title = card.querySelector('.project-header h3');
+                const dateEl = card.querySelector('.project-date');
+                const desc = card.querySelector('p');
+                const tags = card.querySelectorAll('.project-tags span');
+
+                if (title && projTitles[index]) {
+                    title.textContent = projTitles[index];
+                }
+                if (dateEl && projDates[index]) {
+                    dateEl.textContent = projDates[index];
+                }
+                if (desc && projDescs[index]) {
+                    desc.textContent = projDescs[index];
+                }
+                if (tags && projTags[index]) {
+                    tags.forEach((tag, tagIndex) => {
+                        if (projTags[index][tagIndex]) {
+                            tag.textContent = projTags[index][tagIndex];
+                        }
+                    });
+                }
+            });
+
+            // Update contact location and website
+            const contactItems = document.querySelectorAll('.contact-item');
+            contactItems.forEach(item => {
+                const span = item.querySelector('span:not(.contact-icon)');
+                const link = item.querySelector('a');
+
+                if (span) {
+                    if (span.textContent === '上海' && language === 'en') {
+                        span.textContent = langConfig.contactLocation;
+                    } else if (span.textContent === 'Shanghai' && language === 'zh') {
+                        span.textContent = langConfig.contactLocation;
+                    }
+                }
+
+                if (link && link.href === 'https://irawill.space/') {
+                    if (link.textContent === '个人站点' && language === 'en') {
+                        link.textContent = langConfig.contactWebsite;
+                    } else if (link.textContent === 'Personal Website' && language === 'zh') {
+                        link.textContent = langConfig.contactWebsite;
+                    }
+                }
+            });
+
+            // Update footer
+            const footerText = document.querySelector('.footer p');
+            if (footerText) {
+                footerText.innerHTML = `© 2026 Will. ${langConfig.footerText} <span class="text-gradient">Claude &amp; Codex</span> ${langConfig.footerText1}`;
+            }
+        };
+
+        if (!deferNonCritical) {
+            updateNonCritical();
+            return;
+        }
+
+        const runDeferredUpdate = () => {
+            if (updateId !== this.pendingContentUpdateId) return;
+            updateNonCritical();
+        };
+
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(runDeferredUpdate, { timeout: 700 });
+            return;
+        }
+
+        setTimeout(runDeferredUpdate, 220);
     }
 
     getCurrentLanguage() {
@@ -555,7 +619,7 @@ class ThemeLanguageManager {
 let themeLanguageManager;
 
 // 页面加载动画
-document.addEventListener('DOMContentLoaded', function () {
+function initPageInteractions() {
     // 初始化主题和语言管理器
     themeLanguageManager = new ThemeLanguageManager();
     // 平滑滚动
@@ -635,55 +699,85 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    const runWhenBrowserIdle = (callback, timeout = 200) => {
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(callback, { timeout });
+            return;
+        }
+
+        setTimeout(callback, timeout);
+    };
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
+
     // 创建粒子背景
     const createParticles = () => {
         const particlesContainer = document.querySelector('.particles');
-        if (!particlesContainer) return;
+        if (!particlesContainer || particlesContainer.childElementCount) return;
 
-        const particleCount = 50;
+        const particleCount = isMobileViewport ? 24 : 50;
+        const fragment = document.createDocumentFragment();
 
         for (let i = 0; i < particleCount; i++) {
             const particle = document.createElement('div');
+            const size = Math.random() * 2.2 + 1.6;
+            const alpha = 0.38 + Math.random() * 0.18;
+            const particleColor = '129, 140, 248';
+            const hasGlow = Math.random() > 0.7;
             particle.style.position = 'absolute';
-            particle.style.width = Math.random() * 4 + 'px';
-            particle.style.height = particle.style.width;
-            particle.style.background = 'rgba(99, 102, 241, 0.5)';
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.background = `rgba(${particleColor}, ${alpha})`;
+            particle.style.boxShadow = hasGlow
+                ? `0 0 ${3 + Math.random() * 2}px rgba(${particleColor}, 0.22)`
+                : 'none';
             particle.style.borderRadius = '50%';
             particle.style.left = Math.random() * 100 + '%';
             particle.style.top = Math.random() * 100 + '%';
-            particle.style.animation = `float ${Math.random() * 10 + 5}s infinite ease-in-out`;
-            particle.style.animationDelay = Math.random() * 5 + 's';
+            particle.style.animation = `float ${Math.random() * 10 + 7}s infinite ease-in-out`;
+            particle.style.animationDelay = Math.random() * 6 + 's';
 
-            particlesContainer.appendChild(particle);
+            fragment.appendChild(particle);
         }
+
+        particlesContainer.appendChild(fragment);
     };
 
-    // 添加浮动动画
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-                opacity: 0.5;
-            }
-            33% {
-                transform: translateY(-30px) translateX(20px);
-                opacity: 0.8;
-            }
-            66% {
-                transform: translateY(20px) translateX(-20px);
-                opacity: 0.3;
-            }
-        }
-    `;
-    document.head.appendChild(style);
+    const initParticles = () => {
+        if (prefersReducedMotion) return;
 
-    createParticles();
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0%, 100% {
+                    transform: translateY(0) translateX(0);
+                    opacity: 0.35;
+                }
+                33% {
+                    transform: translateY(-24px) translateX(16px);
+                    opacity: 0.62;
+                }
+                66% {
+                    transform: translateY(16px) translateX(-16px);
+                    opacity: 0.3;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        createParticles();
+    };
+
+    requestAnimationFrame(() => {
+        runWhenBrowserIdle(initParticles, 300);
+    });
 
     // 鼠标跟随效果
-    const hero = document.querySelector('.hero');
-    const heroContent = document.querySelector('.hero-content');
-    if (hero && heroContent) {
+    const enableHeroMouseFollow = () => {
+        const hero = document.querySelector('.hero');
+        const heroContent = document.querySelector('.hero-content');
+        if (!hero || !heroContent) return;
+
         let heroRaf = 0;
         hero.addEventListener('mousemove', (e) => {
             cancelAnimationFrame(heroRaf);
@@ -701,6 +795,10 @@ document.addEventListener('DOMContentLoaded', function () {
         hero.addEventListener('mouseleave', () => {
             heroContent.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg)';
         });
+    };
+
+    if (!isMobileViewport && !prefersReducedMotion) {
+        runWhenBrowserIdle(enableHeroMouseFollow, 400);
     }
 
     // 激活导航链接
@@ -730,16 +828,20 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             scrollTicking = false;
         });
-    });
+    }, { passive: true });
 
     // 添加加载完成类
     document.body.classList.add('loaded');
+    const enableNonCriticalMotion = () => {
+        document.body.classList.add('motion-ready');
+    };
+    runWhenBrowserIdle(enableNonCriticalMotion, 200);
 
-    // 卡片 & 标签 hover 动效
-    // Chrome 在滚动时会对光标下方经过的元素连续触发 mouseenter/mouseleave，
-    // 导致大量 class 切换 + transform 动画堆积卡死。
-    // 策略：滚动期间禁止 hover，停止滚动 100ms 后才允许。
-    (() => {
+    const initHoverEffects = () => {
+        // 卡片 & 标签 hover 动效
+        // Chrome 在滚动时会对光标下方经过的元素连续触发 mouseenter/mouseleave，
+        // 导致大量 class 切换 + transform 动画堆积卡死。
+        // 策略：滚动期间禁止 hover，停止滚动 100ms 后才允许。
         let isScrolling = false;
         let scrollTimer = 0;
 
@@ -801,13 +903,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 tag.classList.remove('tag-hovered');
             }, { passive: true });
         });
-    })();
+    };
+
+    runWhenBrowserIdle(initHoverEffects, 800);
 
     // 控制台彩蛋
     console.log('%c👋 欢迎来到Will的个人站点！', 'font-size: 20px; color: #6366f1; font-weight: bold;');
-    console.log('%c🚀 此站点由 Claude AI 生成', 'font-size: 16px; color: #8b5cf6;');
+    console.log('%c🚀 此站点由 Claude & Codex 生成', 'font-size: 16px; color: #8b5cf6;');
     console.log('%c📧 联系我: redwill@126.com', 'font-size: 14px; color: #ec4899;');
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPageInteractions, { once: true });
+} else {
+    initPageInteractions();
+}
 
 // 页面可见性改变时的标题动画
 let titleTimeout;

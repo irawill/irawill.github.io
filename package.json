@@ -1,0 +1,32 @@
+{
+  "name": "irawill.github.io",
+  "version": "1.0.0",
+  "description": "🚀 一个现代化、响应式的个人作品展示网站",
+  "main": "script.js",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build:fonts": "node scripts/build-fonts.mjs",
+    "build:css": "esbuild styles.css --minify --legal-comments=none --outfile=styles.min.css",
+    "build:js": "node scripts/build-js.mjs",
+    "build": "npm run build:fonts && npm run build:css && npm run build:js",
+    "lh:h5": "mkdir -p reports && lighthouse http://localhost:5500 --chrome-flags=\"--headless=new --incognito --disable-extensions\" --form-factor=mobile --throttling-method=provided --only-categories=performance,accessibility,best-practices,seo --output=html --output=json --output-path=reports/lighthouse-h5",
+    "lh:pc": "mkdir -p reports && lighthouse http://localhost:5500 --chrome-flags=\"--headless=new --incognito --disable-extensions\" --form-factor=desktop --screenEmulation.mobile=false --screenEmulation.width=1350 --screenEmulation.height=940 --screenEmulation.deviceScaleFactor=1 --throttling-method=provided --only-categories=performance,accessibility,best-practices,seo --output=html --output=json --output-path=reports/lighthouse-pc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/irawill/irawill.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/irawill/irawill.github.io/issues"
+  },
+  "homepage": "https://github.com/irawill/irawill.github.io#readme",
+  "devDependencies": {
+    "esbuild": "^0.27.3",
+    "lighthouse": "^13.0.3",
+    "ttf2woff2": "^8.0.1"
+  }
+}

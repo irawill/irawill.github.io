@@ -1,55 +1,86 @@
-# Will的个人网站
+# Will 的个人网站
 
-🚀 一个现代化、响应式的个人作品展示网站
+现代化、响应式的个人作品展示站点，聚焦前端工程能力、项目经历与技术沉淀展示。
 
-## 🌟 特性
+## 项目说明
 
-- ✨ 现代化设计，深色主题
-- 📱 完全响应式，支持PC和移动端
-- 🎨 流畅的动画效果
-- ⚡ 纯静态网站，加载速度快
-- 🎯 清晰的内容组织结构
+- 纯静态实现：`HTML + CSS + Vanilla JS`
+- 支持中英文切换、主题切换、打字机效果、响应式布局
+- 兼顾 PC / H5 展示体验
+- 产物发布模式：源码 + 构建产物（`*.min.*`、`woff2`）一并入库
 
-## 🛠 技术栈
+## 目录结构
 
-- HTML5
-- CSS3 (动画、渐变、Grid、Flexbox)
-- Vanilla JavaScript
-- Google Fonts
+```text
+.
+├── index.html
+├── script.js
+├── styles.css
+├── script.min.js
+├── styles.min.css
+├── fonts/
+│   ├── inter.css
+│   ├── inter-*.ttf
+│   └── inter-*.woff2
+└── scripts/
+    ├── build-fonts.mjs
+    └── dev.mjs
+```
 
-## 📦 主要功能
+## 环境要求
 
-- **导航栏**：固定顶部，滚动时背景变化
-- **Hero区域**：打字机效果、粒子背景动画
-- **关于部分**：卡片式布局展示核心能力
-- **技能展示**：分类展示技术栈
-- **工作经历**：时间线形式展示
-- **项目展示**：卡片式项目介绍
-- **联系方式**：清晰的联系信息
+- Node.js 20+
+- npm 10+
+- Python 3（用于本地静态 server）
 
-## 🎨 设计亮点
+## 快速开始
 
-- 渐变文字效果
-- 悬浮动画
-- 滚动触发动画
-- 鼠标跟随3D效果
-- 数字递增动画
+```bash
+npm install
+npm run dev
+```
 
-## 🌐 访问地址
+启动后访问：`http://localhost:5500`
+
+## 可用脚本
+
+- `npm run dev`：本地开发模式（启动 server + 监听构建 js/css + 生成 woff2 字体）
+- `npm run build`：一键构建发布产物（字体、CSS、JS）
+- `npm run build:fonts`：将 `fonts/*.ttf` 转换为 `fonts/*.woff2`
+- `npm run build:css`：生成 `styles.min.css`
+- `npm run build:js`：生成 `script.min.js`
+- `npm run lh:h5`：移动端 Lighthouse（禁用扩展基线，输出到 `reports/`）
+- `npm run lh:pc`：桌面端 Lighthouse（禁用扩展基线，输出到 `reports/`）
+
+## 发布流程
+
+```bash
+npm ci
+npm run build
+```
+
+然后提交以下变更并发布：
+
+- 源码变更（`index.html`、`script.js`、`styles.css` 等）
+- 构建产物（`script.min.js`、`styles.min.css`、`fonts/*.woff2`）
+
+## Lighthouse 说明
+
+- 推荐使用 `npm run lh:h5` / `npm run lh:pc` 作为统一采集入口
+- 命令已包含 `--incognito --disable-extensions`，避免浏览器扩展注入干扰评分
+- 当前默认使用 `--throttling-method=provided`（本机实测口径）
+
+## Lighthouse 最新得分（2026-03-05）
+
+| 场景 | Performance | Accessibility | Best Practices | SEO |
+| --- | --- | --- | --- | --- |
+| H5 | 100 | 100 | 100 | 100 |
+| PC | 100 | 100 | 100 | 100 |
+
+## 线上地址
 
 [https://irawill.github.io](https://irawill.github.io)
 
-## 👤 关于我
+## Credits
 
-- 📍 位置：上海
-- 📧 邮箱：redwill@126.com
-- 📱 电话：185-1666-0118
-- 💼 经验：9年+ 前端开发经验
-
-## 🤖 Credits
-
-此站点由 **Claude AI** 生成
-
----
-
-© 2026 Will. All rights reserved.
+此站点由 **Claude AI** 生成。
