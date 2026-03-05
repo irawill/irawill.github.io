@@ -343,33 +343,6 @@ class ThemeLanguageManager {
 
     setTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
-        document.querySelector('html').setAttribute('lang', this.currentLanguage === 'zh' ? 'zh-CN' : 'en');
-        
-        // 立即更新导航栏背景色以匹配当前滚动位置和新主题
-        this.updateNavbarBackground(theme);
-    }
-
-    updateNavbarBackground(theme) {
-        const navbar = document.querySelector('.navbar');
-        const currentScroll = window.pageYOffset;
-        
-        if (currentScroll > 100) {
-            if (theme === 'light') {
-                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-                navbar.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
-            } else {
-                navbar.style.background = 'rgba(15, 15, 35, 0.98)';
-                navbar.style.boxShadow = '0 5px 20px rgba(0,0,0,0.3)';
-            }
-        } else {
-            if (theme === 'light') {
-                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-                navbar.style.boxShadow = 'none';
-            } else {
-                navbar.style.background = 'rgba(15, 15, 35, 0.95)';
-                navbar.style.boxShadow = 'none';
-            }
-        }
     }
 
     setLanguage(language) {
@@ -534,7 +507,6 @@ class ThemeLanguageManager {
 
         // Update document title
         document.title = langConfig.pageTitle;
-        document.querySelector('html').setAttribute('lang', language === 'zh' ? 'zh-CN' : 'en');
     }
 
     getCurrentLanguage() {
@@ -549,35 +521,6 @@ let themeLanguageManager;
 document.addEventListener('DOMContentLoaded', function () {
     // 初始化主题和语言管理器
     themeLanguageManager = new ThemeLanguageManager();
-    // 导航栏滚动效果
-    const navbar = document.querySelector('.navbar');
-    let lastScroll = 0;
-
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-
-        if (currentScroll > 100) {
-            if (currentTheme === 'light') {
-                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-                navbar.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
-            } else {
-                navbar.style.background = 'rgba(15, 15, 35, 0.98)';
-                navbar.style.boxShadow = '0 5px 20px rgba(0,0,0,0.3)';
-            }
-        } else {
-            if (currentTheme === 'light') {
-                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-                navbar.style.boxShadow = 'none';
-            } else {
-                navbar.style.background = 'rgba(15, 15, 35, 0.95)';
-                navbar.style.boxShadow = 'none';
-            }
-        }
-
-        lastScroll = currentScroll;
-    });
-
     // 平滑滚动
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -591,45 +534,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-
-    // 数字动画
-    const animateValue = (element, start, end, duration) => {
-        let startTimestamp = null;
-        const step = (timestamp) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            element.textContent = Math.floor(progress * (end - start) + start);
-            if (progress < 1) {
-                window.requestAnimationFrame(step);
-            }
-        };
-        window.requestAnimationFrame(step);
-    };
-
-    // 监测元素是否在视口
-    const observerOptions = {
-        threshold: 0.5,
-        rootMargin: '0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // 添加动画类
-                if (entry.target.classList.contains('about-card') ||
-                    entry.target.classList.contains('timeline-item') ||
-                    entry.target.classList.contains('project-card')) {
-                    entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
-                    observer.unobserve(entry.target);
-                }
-            }
-        });
-    }, observerOptions);
-
-    // 观察需要动画的元素
-    document.querySelectorAll('.about-card').forEach(el => observer.observe(el));
-    document.querySelectorAll('.timeline-item').forEach(el => observer.observe(el));
-    document.querySelectorAll('.project-card').forEach(el => observer.observe(el));
 
     // 移动端菜单切换
     const navToggle = document.querySelector('.nav-toggle');
@@ -712,18 +616,6 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(typeWriter, 500);
     }
 
-    // 技能标签悬停效果
-    const skillTags = document.querySelectorAll('.skill-tag');
-    skillTags.forEach(tag => {
-        tag.addEventListener('mouseenter', function () {
-            this.style.transform = 'scale(1.1) rotate(2deg)';
-        });
-
-        tag.addEventListener('mouseleave', function () {
-            this.style.transform = 'scale(1) rotate(0deg)';
-        });
-    });
-
     // 创建粒子背景
     const createParticles = () => {
         const particlesContainer = document.querySelector('.particles');
@@ -771,25 +663,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 鼠标跟随效果
     const hero = document.querySelector('.hero');
-    if (hero) {
+    const heroContent = document.querySelector('.hero-content');
+    if (hero && heroContent) {
+        let heroRaf = 0;
         hero.addEventListener('mousemove', (e) => {
-            const { clientX, clientY } = e;
-            const { width, height } = hero.getBoundingClientRect();
+            cancelAnimationFrame(heroRaf);
+            heroRaf = requestAnimationFrame(() => {
+                const { clientX, clientY } = e;
+                const { width, height } = hero.getBoundingClientRect();
 
-            const xPos = (clientX / width - 0.5) * 20;
-            const yPos = (clientY / height - 0.5) * 20;
+                const xPos = (clientX / width - 0.5) * 20;
+                const yPos = (clientY / height - 0.5) * 20;
 
-            const heroContent = document.querySelector('.hero-content');
-            if (heroContent) {
                 heroContent.style.transform = `perspective(1000px) rotateY(${xPos}deg) rotateX(${-yPos}deg)`;
-            }
+            });
         });
 
         hero.addEventListener('mouseleave', () => {
-            const heroContent = document.querySelector('.hero-content');
-            if (heroContent) {
-                heroContent.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg)';
-            }
+            heroContent.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg)';
         });
     }
 
@@ -797,27 +688,101 @@ document.addEventListener('DOMContentLoaded', function () {
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
 
+    let scrollTicking = false;
     window.addEventListener('scroll', () => {
-        let current = '';
+        if (scrollTicking) return;
+        scrollTicking = true;
+        requestAnimationFrame(() => {
+            let current = '';
 
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
 
-            if (pageYOffset >= sectionTop - 100) {
-                current = section.getAttribute('id');
-            }
-        });
+                if (window.scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
 
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href').slice(1) === current) {
-                link.classList.add('active');
-            }
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+            scrollTicking = false;
         });
     });
 
     // 添加加载完成类
     document.body.classList.add('loaded');
+
+    // 卡片 & 标签 hover 动效
+    // Chrome 在滚动时会对光标下方经过的元素连续触发 mouseenter/mouseleave，
+    // 导致大量 class 切换 + transform 动画堆积卡死。
+    // 策略：滚动期间禁止 hover，停止滚动 100ms 后才允许。
+    (() => {
+        let isScrolling = false;
+        let scrollTimer = 0;
+
+        window.addEventListener('scroll', () => {
+            isScrolling = true;
+            // 滚动期间立即清除所有活跃 hover
+            if (activeCard) {
+                activeCard.classList.remove('card-hovered');
+                activeCard = null;
+            }
+            if (activeTag) {
+                activeTag.classList.remove('tag-hovered');
+                activeTag = null;
+            }
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(() => { isScrolling = false; }, 100);
+        }, { passive: true });
+
+        // --- 卡片 hover ---
+        let activeCard = null;
+        let cardRaf = 0;
+
+        document.querySelectorAll('.about-card, .project-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                if (isScrolling || activeCard === card) return;
+                if (activeCard) activeCard.classList.remove('card-hovered');
+                activeCard = card;
+                cancelAnimationFrame(cardRaf);
+                cardRaf = requestAnimationFrame(() => {
+                    card.classList.add('card-hovered');
+                });
+            }, { passive: true });
+
+            card.addEventListener('mouseleave', () => {
+                if (activeCard === card) activeCard = null;
+                cancelAnimationFrame(cardRaf);
+                card.classList.remove('card-hovered');
+            }, { passive: true });
+        });
+
+        // --- 技能标签 hover ---
+        let activeTag = null;
+        let tagRaf = 0;
+
+        document.querySelectorAll('.skill-tag').forEach(tag => {
+            tag.addEventListener('mouseenter', () => {
+                if (isScrolling || activeTag === tag) return;
+                if (activeTag) activeTag.classList.remove('tag-hovered');
+                activeTag = tag;
+                cancelAnimationFrame(tagRaf);
+                tagRaf = requestAnimationFrame(() => {
+                    tag.classList.add('tag-hovered');
+                });
+            }, { passive: true });
+
+            tag.addEventListener('mouseleave', () => {
+                if (activeTag === tag) activeTag = null;
+                cancelAnimationFrame(tagRaf);
+                tag.classList.remove('tag-hovered');
+            }, { passive: true });
+        });
+    })();
 
     // 控制台彩蛋
     console.log('%c👋 欢迎来到Will的个人站点！', 'font-size: 20px; color: #6366f1; font-weight: bold;');

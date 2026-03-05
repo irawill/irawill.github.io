@@ -7,19 +7,9 @@
 :root {
     --primary-color: #6366f1;
     --secondary-color: #8b5cf6;
-    --accent-color: #ec4899;
     --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     
     /* 默认为暗黑模式 */
-    --bg-primary: #0f0f23;
-    --bg-secondary: #1a1a2e;
-    --text-primary: #ffffff;
-    --text-secondary: #a0a0a0;
-    --border-color: rgba(99, 102, 241, 0.2);
-    --card-bg: rgba(99, 102, 241, 0.1);
-}
-
-[data-theme="dark"] {
     --bg-primary: #0f0f23;
     --bg-secondary: #1a1a2e;
     --text-primary: #ffffff;
@@ -37,6 +27,10 @@
     --card-bg: rgba(99, 102, 241, 0.03);
 }
 
+html {
+    scrollbar-width: none; /* Firefox */
+}
+
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg-primary);
@@ -44,6 +38,12 @@ body {
     overflow-x: hidden;
     line-height: 1.6;
     transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 隐藏滚动条但保留滚动功能 */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none;
 }
 
 /* 导航栏 */
@@ -55,7 +55,7 @@ body {
     backdrop-filter: blur(10px);
     z-index: 1000;
     padding: 1rem 0;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 [data-theme="light"] .navbar {
@@ -238,7 +238,7 @@ body {
     border-radius: 50px;
     text-decoration: none;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
     display: inline-block;
 }
 
@@ -335,13 +335,21 @@ section {
     padding: 1.25rem;
     border-radius: 20px;
     border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
 }
 
-.about-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+/* hover：只过渡 transform（GPU合成），其余瞬变 */
+.card-hovered {
+    transform: scale(1.02);
     border-color: var(--primary-color);
+    transition: transform 0.3s ease;
+}
+
+.about-card.card-hovered {
+    box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+}
+
+.project-card.card-hovered {
+    box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
 }
 
 .card-icon {
@@ -383,13 +391,13 @@ section {
     border-radius: 20px;
     font-size: 0.9rem;
     border: 1px solid rgba(99, 102, 241, 0.3);
-    transition: all 0.3s ease;
 }
 
-.skill-tag:hover {
+.tag-hovered {
+    transform: scale(1.1) rotate(2deg);
     background: var(--primary-color);
     color: white;
-    transform: scale(1.05);
+    transition: transform 0.3s ease;
 }
 
 /* Timeline */
@@ -496,13 +504,8 @@ section {
     padding: 2rem;
     border-radius: 15px;
     border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
 }
 
-.project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
-}
 
 .project-header {
     display: flex;
@@ -587,7 +590,7 @@ section {
     z-index: 999;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .mobile-nav-overlay.active {
@@ -611,7 +614,7 @@ section {
     gap: 0;
     transform: translateY(-20px);
     opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     max-width: 300px;
     margin: 0 auto;
 }
@@ -626,9 +629,8 @@ section {
 }
 
 .nav-menu.mobile-menu .nav-link {
-    padding: 1rem 0;
     border-bottom: 1px solid var(--border-color);
-    transition: all 0.3s ease;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
     border-radius: 8px;
     margin: 0.25rem 0;
     padding: 0.75rem 1rem;
@@ -667,22 +669,6 @@ section {
     transform: translateX(8px) scale(0.98);
     background: var(--primary-color);
     color: white;
-}
-
-/* 移动端菜单的进入动画 */
-@keyframes slideInDown {
-    from {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-.nav-menu.mobile-menu.active {
-    animation: slideInDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* 响应式设计 */
@@ -745,6 +731,7 @@ section {
         align-items: center;
         gap: 1rem;
     }
+
 }
 
 /* Theme and Language Toggle */
@@ -771,7 +758,7 @@ section {
     align-items: center;
     justify-content: center;
     font-size: 1.2rem;
-    transition: all 0.3s ease;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
     box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
 }
 
