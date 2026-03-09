@@ -77,7 +77,7 @@ const languages = {
         exp1Tasks: [
             'Growth UI 组件库从0到1搭建（四层架构、CSS Module + Design Token、dumi文档、Jest测试、CI/CD）',
             '主导7+营销活动项目交付（WCTC赛事、万圣节活动、AI Trading竞赛等）',
-            'AI代码生成探索（图生代码、PRD模版化、Prompt优化、Vibe Coding）',
+            'AI代码生成探索（根据PRD产品信息生成代码、PRD模版化、Prompt优化、Vibe Coding）',
             '工程基建（Builder水合治理、WebPro监控、Header动态配置）',
             '团队管理（周会制度、OKR辅导、新人文档、跨团队协作）'
         ],
@@ -117,7 +117,7 @@ const languages = {
         projectsTitle: '代表项目',
         proj1Title: 'AI生成活动页',
         proj1Date: '2026.01 - 至今',
-        proj1Desc: '主导活动侧AI生码方向探索，明确图生代码技术路线，PRD输入模版化，工程基座搭建，Prompt优化与Vibe Coding实践，提升活动页开发效率。',
+        proj1Desc: '主导活动侧AI生码方向探索，明确基于PRD产品信息生成代码的技术路线，推进PRD输入模版化，工程基座搭建，Prompt优化与Vibe Coding实践，提升活动页开发效率。',
         proj1Tags: ['AI生码', 'Prompt Engineering', 'Vibe Coding'],
         proj2Title: 'Growth UI 组件库',
         proj2Date: '2025.09 - 至今',
@@ -198,7 +198,7 @@ const languages = {
         exp1Tasks: [
             'Built Growth UI component library from scratch (4-layer architecture, CSS Module + Design Token, dumi docs, Jest testing, CI/CD)',
             'Led 7+ marketing campaign project deliveries (WCTC tournament, Halloween event, AI Trading competition, etc.)',
-            'AI code generation exploration (image-to-code, PRD templatization, Prompt optimization, Vibe Coding)',
+            'AI code generation exploration (code generation from PRD product information, PRD templatization, Prompt optimization, Vibe Coding)',
             'Engineering infrastructure (Builder hydration governance, WebPro monitoring, Header dynamic configuration)',
             'Team management (weekly meetings, OKR coaching, onboarding docs, cross-team collaboration)'
         ],
@@ -238,7 +238,7 @@ const languages = {
         projectsTitle: 'Key Projects',
         proj1Title: 'AI-Generated Campaign Pages',
         proj1Date: '2026.01 - Present',
-        proj1Desc: 'Led AI code generation exploration for marketing campaigns, established image-to-code technical roadmap, PRD input templatization, engineering foundation setup, Prompt optimization and Vibe Coding practices to improve campaign page development efficiency.',
+        proj1Desc: 'Led AI code generation exploration for marketing campaigns, established a PRD-driven code generation roadmap, PRD input templatization, engineering foundation setup, Prompt optimization and Vibe Coding practices to improve campaign page development efficiency.',
         proj1Tags: ['AI Code Gen', 'Prompt Engineering', 'Vibe Coding'],
         proj2Title: 'Growth UI Component Library',
         proj2Date: '2025.09 - Present',
