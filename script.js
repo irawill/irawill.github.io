@@ -71,9 +71,9 @@ const languages = {
 
         // Experience section
         experienceTitle: '工作经历',
-        exp1Company: '某全球Top5数字金融科技集团',
-        exp1Role: '营销活动前端负责人',
-        exp1Date: '2025.09 - 至今',
+        exp1Company: '大门科技有限公司',
+        exp1Role: '前端开发工程师',
+        exp1Date: '2025.09 - 2026.03',
         exp1Tasks: [
             'Growth UI 组件库从0到1搭建（四层架构、CSS Module + Design Token、dumi文档、Jest测试、CI/CD）',
             '主导7+营销活动项目交付（WCTC赛事、万圣节活动、AI Trading竞赛等）',
@@ -120,7 +120,7 @@ const languages = {
         proj1Desc: '主导活动侧AI生码方向探索，明确基于PRD产品信息生成代码的技术路线，推进PRD输入模版化，工程基座搭建，Prompt优化与Vibe Coding实践，提升活动页开发效率。',
         proj1Tags: ['AI生码', 'Prompt Engineering', 'Vibe Coding'],
         proj2Title: 'Growth UI 组件库',
-        proj2Date: '2025.09 - 至今',
+        proj2Date: '2025.09 - 2026.03',
         proj2Desc: '从0到1搭建营销活动组件库，四层架构设计（基础组件/业务组件/模板/页面），采用 CSS Module + Design Token 方案，配套 dumi 文档站、Jest 单测覆盖、CI/CD 自动化发布。',
         proj2Tags: ['组件库', 'Design Token', 'dumi'],
         proj3Title: '沉浸式文档阅读解决方案',
@@ -192,9 +192,9 @@ const languages = {
 
         // Experience section
         experienceTitle: 'Experience',
-        exp1Company: 'A Global Top-5 Digital Finance & Technology Group',
-        exp1Role: 'Marketing Activity Frontend Lead',
-        exp1Date: '2025.09 - Present',
+        exp1Company: 'Gate',
+        exp1Role: 'Frontend Developer',
+        exp1Date: '2025.09 - 2026.03',
         exp1Tasks: [
             'Built Growth UI component library from scratch (4-layer architecture, CSS Module + Design Token, dumi docs, Jest testing, CI/CD)',
             'Led 7+ marketing campaign project deliveries (WCTC tournament, Halloween event, AI Trading competition, etc.)',
@@ -241,7 +241,7 @@ const languages = {
         proj1Desc: 'Led AI code generation exploration for marketing campaigns, established a PRD-driven code generation roadmap, PRD input templatization, engineering foundation setup, Prompt optimization and Vibe Coding practices to improve campaign page development efficiency.',
         proj1Tags: ['AI Code Gen', 'Prompt Engineering', 'Vibe Coding'],
         proj2Title: 'Growth UI Component Library',
-        proj2Date: '2025.09 - Present',
+        proj2Date: '2025.09 - 2026.03',
         proj2Desc: 'Built marketing campaign component library from scratch with 4-layer architecture (base/business components/templates/pages), CSS Module + Design Token approach, dumi documentation site, Jest unit test coverage, and CI/CD automated publishing.',
         proj2Tags: ['Component Library', 'Design Token', 'dumi'],
         proj3Title: 'Immersive Document Reading Solution',
