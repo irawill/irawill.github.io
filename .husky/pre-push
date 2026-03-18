@@ -63,3 +63,13 @@ npm run lh:pc > /dev/null 2>&1 || {
 
 # Step 4: Check scores
 node scripts/check-scores.mjs
+EXIT_CODE=$?
+
+# Cleanup server before exiting so trap doesn't affect exit code
+if [ "$SERVER_STARTED" = true ] && [ -n "$SERVER_PID" ]; then
+  kill $SERVER_PID 2>/dev/null
+  wait $SERVER_PID 2>/dev/null
+  SERVER_STARTED=false
+fi
+
+exit $EXIT_CODE
