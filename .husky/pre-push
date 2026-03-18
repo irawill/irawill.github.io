@@ -4,6 +4,14 @@ echo ""
 echo "\033[1m🔍 Pre-push: Lighthouse 质量门禁\033[0m"
 echo ""
 
+# Cleanup helper — kill server if we started it
+kill_server() {
+  if [ "$SERVER_STARTED" = true ] && [ -n "$SERVER_PID" ]; then
+    kill $SERVER_PID 2>/dev/null
+    wait $SERVER_PID 2>/dev/null || true
+  fi
+}
+
 # Step 1: Build
 echo "📦 构建中..."
 npm run build || {
@@ -28,7 +36,7 @@ else
     RETRIES=$((RETRIES + 1))
     if [ "$RETRIES" -ge 20 ]; then
       echo "\033[31m✗ 服务器启动超时，push 已阻止。\033[0m"
-      kill $SERVER_PID 2>/dev/null
+      kill_server
       exit 1
     fi
     sleep 0.5
@@ -37,27 +45,20 @@ else
 fi
 echo ""
 
-# Cleanup function
-cleanup() {
-  if [ "$SERVER_STARTED" = true ] && [ -n "$SERVER_PID" ]; then
-    kill $SERVER_PID 2>/dev/null
-    wait $SERVER_PID 2>/dev/null
-  fi
-}
-trap cleanup EXIT
-
 # Step 3: Run Lighthouse sequentially
 echo "🔍 运行 Lighthouse 审计 (H5 → PC 串行)..."
 echo ""
 echo "  📱 H5 (移动端)..."
 npm run lh:h5 > /dev/null 2>&1 || {
   echo "\033[31m✗ H5 Lighthouse 审计执行失败，push 已阻止。\033[0m"
+  kill_server
   exit 1
 }
 echo "  ✓ H5 完成"
 echo "  🖥  PC (桌面端)..."
 npm run lh:pc > /dev/null 2>&1 || {
   echo "\033[31m✗ PC Lighthouse 审计执行失败，push 已阻止。\033[0m"
+  kill_server
   exit 1
 }
 
@@ -65,11 +66,7 @@ npm run lh:pc > /dev/null 2>&1 || {
 node scripts/check-scores.mjs
 EXIT_CODE=$?
 
-# Cleanup server before exiting so trap doesn't affect exit code
-if [ "$SERVER_STARTED" = true ] && [ -n "$SERVER_PID" ]; then
-  kill $SERVER_PID 2>/dev/null
-  wait $SERVER_PID 2>/dev/null
-  SERVER_STARTED=false
-fi
+# Cleanup server
+kill_server
 
 exit $EXIT_CODE
